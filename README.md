@@ -14,10 +14,16 @@ sucesivas o puntuales y cuyo aviso llegue al Email.
 ## **Instalación**
 
 * Instalar dependencias
+
+```
   npm install
+```
 
 * Comando para ejecutar la aplicación localmente
+
+```
   npm run dev
+```
 
 ## **Licencia**
 
