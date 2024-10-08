@@ -1,19 +1,24 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import LoginForm from '../components/LoginForm.astro';
 ---
 
 <Layout title="CaLEANdar">
 	<main>
-	    
+    <div class="grid grid-cols-2 h-screen">
+      <div class="w-full p-4 bg-gray-50">
+        <LoginForm />
+       </div>
+      <div class="w-full p-4 bg-gray-300">
+        <!-- Por definir que va de este lado derecho -->
+      </div>
+    </div> 
 	</main>
 </Layout>
 
 <style>
 	main {
 		margin: auto;
-		padding: 1rem;
-		width: 800px;
-		max-width: calc(100% - 2rem);
 		color: white;
 		line-height: 1.6;
 	}

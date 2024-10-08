@@ -1,6 +1,4 @@
 ---
-import LoginForm from '../components/LoginForm.astro';
-
 interface Props {
 	title: string;
 }
@@ -18,19 +16,12 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
-    <div class="grid grid-cols-2 h-screen">
-      <div class="w-full p-4 bg-gray-50">
-        <LoginForm />
-        </div>
-      <div class="w-full p-4 bg-gray-300">
-        
-        </div>
-        <!-- <slot /> -->
-    </div>
+    <slot />
+    <script src="../../node_modules/flowbite/dist/flowbite.min.js"></script>
   </body>
 </html>
 <style is:global>
-	:root {
+:root {
 		--accent: 136, 58, 234;
 		--accent-light: 224, 204, 250;
 		--accent-dark: 49, 10, 101;
@@ -44,6 +35,6 @@ const { title } = Astro.props;
 	html {
 		font-family: system-ui, sans-serif;
 		background: #ffffff;
-	}
+  }
 	
 </style>
