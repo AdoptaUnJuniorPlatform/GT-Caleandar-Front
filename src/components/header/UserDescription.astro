@@ -1,0 +1,34 @@
+---
+
+const currentDate = new Date(Date.now())
+
+
+const options:any = {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  };
+
+const formattedDate = currentDate.toLocaleString('es-ES', options).replace(',', ' |');
+---
+<div class="w-[360px] h-12 flex flex-row items-center justify-between border-l border-t border-b border-[#70CAD5] pl-5 py-1 rounded-tl-2xl rounded-bl-2xl">
+  <div class="flex flex-row gap-2">
+    <img src="https://plus.unsplash.com/premium_photo-1689568158814-3b8e9c1a9618?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29uYXxlbnwwfHwwfHx8MA%3D%3D" alt="user-image" class="w-10 h-10 rounded-full object-cover">
+    <div class="flex flex-col leading-3">
+      <span class="text-[10px] text-[#91ABB8] font-['Montserrat Alternates']">{formattedDate}</span>
+      <span class="text-[1rem] text-[#3098A5] font-['Montserrat Alternates']">Juan Perez</span>
+      <span class="text-xs text-[#547483] font-[Montserrat]">Programador</span>
+    </div>
+  </div>
+  <label class="inline-flex items-center cursor-pointer mr-16">
+    <input type="checkbox" value="" class="sr-only peer" checked>
+    <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#39B3C2]"></div>
+  </label>
+</div>
+
+<style>
+ 
+</style>
