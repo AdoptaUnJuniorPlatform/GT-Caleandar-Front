@@ -15,13 +15,15 @@
     <img src="/icons/bell.svg" alt="lec image" class="len__image" />
     <div class="user-desc__section">
       <img
-        src="https://plus.unsplash.com/premium_photo-1689568158814-3b8e9c1a9618?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29uYXxlbnwwfHwwfHx8MA%3D%3D"
+        id="userPhoto"
+        src="/images/default-user-img.png"
         alt="user-image"
         class="profile__image"
       />
       <div class="user-text__container">
-        <p class="user__name">Juan Perez</p>
-        <p class="user__position">Programador</p>
+        <p id="userName" class="user__name"></p>
+        <!-- <p class="user__position">Programador</p> -->
+        <button id="logoutButton" class="user__position">Cerrar Sesión</button>
       </div>
       <img
         src="/icons/arrow-down.svg"
@@ -155,3 +157,33 @@
     }
   }
 </style>
+
+<script>
+  import { auth } from '../../static/js/firebaseconfig';
+  import { onAuthStateChanged, signOut } from 'firebase/auth';
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const userPhoto = document.getElementById('userPhoto') as HTMLImageElement | null;
+      const userName = document.getElementById('userName');
+      const userEmail = document.getElementById('userEmail');
+
+      if (userPhoto) userPhoto.src = user.photoURL || '';
+      if (userName) userName.textContent = `${user.displayName}`;
+      if (userEmail) userEmail.textContent = `${user.email}`;
+    } else {
+      window.location.href = '/login';
+    }
+  });
+
+  const logoutButton = document.getElementById('logoutButton');
+  if (logoutButton) {
+    logoutButton.addEventListener('click', () => {
+      signOut(auth).then(() => {
+        window.location.href = '/login';
+      }).catch((error) => {
+        console.error('Error al cerrar sesión:', error);
+      });
+    });
+  }
+</script>
