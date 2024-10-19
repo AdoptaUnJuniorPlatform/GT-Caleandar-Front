@@ -7,23 +7,26 @@ sucesivas o puntuales y cuyo aviso llegue al Email.
 
 ## **Tecnologías Usadas**
 
-* Astro
-* Tailwind CSS
-* Librerías
+- Astro
+- Html
+- CSS3
+- Firebase
+- Javascript
+- Typescript
 
 ## **Instalación**
 
-* Instalar dependencias
+- Instalar dependencias
 
-```
-  npm install
-```
+  `npm install`
+
+- Editar variables de entorno
+
+  `Cambiar de nombre el archivo .env.template a .env y ingresar sus propias variables`
 
 * Comando para ejecutar la aplicación localmente
 
-```
-  npm run dev
-```
+  `npm run dev`
 
 ## **Licencia**
 
