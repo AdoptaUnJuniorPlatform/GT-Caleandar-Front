@@ -6,186 +6,157 @@
   <div class="modal-content">
     <div class="header-form">
       <h1 id="modalTitle" class="modal-title" aria-label="Cerrar">
-        Crear Tarea
+        Crear Recordatorio
       </h1>
       <button class="close-btn" aria-label="Cerrar">
-        <img src="/icons/icon-close.svg" alt="Cerrar" class="btn-icon" />
+        <img src="/icons/icon-close.svg" alt="Cerrar" class="icon" />
       </button>
     </div>
-    <div class="tabs">
-      <button class="tab active" data-tab="details">Detalles</button>
-      <button class="tab" data-tab="date-hour">Fecha y Hora</button>
-      <button class="tab" data-tab="reminder">Recordatorios</button>
-    </div>
-    <form id="taskForm" class="form-content"> 
-      <!-- Contenido de la pestaña "Detalles" -->
-      <div class="tab-content" id="details" data-tab-content>
-        <div class="form-group-details">
-          <div class="form-group">
-            <label for="name" class="label-name">
-              <img src="/icons/icon-task.svg" alt="Tarea icono" class="icon" /> Nombre de la tarea
-            </label>
-            <input type="text" id="name" name="name" class="input name" required placeholder="Ingresa nombre de la tarea" />
-            <span class="error" id="nameError"></span>
-          </div>
-          
-          <div class="form-group">
-            <label for="participant" class="label-participant">
-            <img src="/icons/icon-users.svg" alt="Participantes icono" class="icon" /> Participantes
-            </label>
-            <input type="text" id="participant" name="participant" class="input participant" placeholder="Ingresa nombre de participante" required />
-            <span class="error" id="participantError"></span>
-          </div>
-          
-          <div class="form-group">
-            <label for="status" class="label-select">
-              <img src="/icons/icon-start.svg" alt="Estado icono" class="icon" /> Estado
-            </label>
-            <select id="status" name="status" class="select" required>
-              <option selected value="toDo">Por Hacer</option>
-              <option value="inProcess">En Proceso</option>
-              <option value="review">En Revisión</option>
-              <option value="completed">Finalizada</option>
-              <option value="canceled">Cancelada</option>
-            </select>
-            <span class="error" id="statusError"></span>
-          </div>
-  
-          <div class="form-group">
-            <label for="description" class="label-description">
-              <img src="/icons/icon-description.svg" alt="Descripcion icono" class="icon" /> Descripción
-            </label>
-            <textarea id="description" name="description" class="text-description" placeholder="Breve descripción de la actividad" required></textarea>
-            <span class="error" id="descriptionError"></span>
-          </div>
+    <form id="taskForm" class="form-content">
+      <div class="form-group-details">
+        <div class="form-group-title">
+          <input
+            type="text"
+            id="title"
+            name="title"
+            class="input-title"
+            required
+            placeholder="Titulo Recordatorio"
+          />
+          <input
+            type="text"
+            id="subtitle"
+            name="subtitle"
+            class="input-subtitle"
+            placeholder="Subtitulo"
+          />
+          <span class="error" id="titleError"></span>
         </div>
-      </div>
-      <!-- Pestaña Fecha y Hora -->       
-      <div class="tab-content" id="date-hour" data-tab-content>
-        <div class="form-group-date">
-          <div class="form-group-calendar">
-            <label for="day" class="label-calendar">
-              <img
-                src="/icons/icon-calendar.svg"
-                alt="Calendario icono"
-                class="icon"
-              /> Fecha
-            </label>
-            <div class="custom-date-picker">
-              <input type="date" id="day" name="day" class="input-date" required />
-              <img 
+        <div class="form-group-calendar">
+          <label for="day" class="label">
+            <img
+              src="/icons/icon-calendar.svg"
+              alt="Calendario icono"
+              class="icon"
+            /> Fecha
+          </label>
+          <div class="custom-date-picker">
+            <input
+              type="date"
+              id="dayStar"
+              name="dayStar"
+              class="input-date"
+              required
+            />
+            <img
               src="/icons/icon-arrow.svg"
               alt="Icono Flecha"
-              class="arrow"
+              class="arrowStar"
             />
-            <span class="error" id="dayError"></span>   
-            </div> 
+            <input
+              type="date"
+              id="dayEnd"
+              name="dayEnd"
+              class="input-date"
+              required
+            />
+            <img
+              src="/icons/icon-arrow.svg"
+              alt="Icono Flecha"
+              class="arrowEnd"
+            />
           </div>
-          
+          <div class="text-date">
+            <span id="start"> Inicio</span>
+            <span id="end"> Fin (Opcional)</span>
+          </div>
           <div class="form-group-time">
             <label for="starTime" class="label-time">
               <img
-                src="/icons/icon-clock.svg"
-                alt="Reloj icono"
+                src="/icons/icon-repeat.svg"
+                alt="Repite icono"
                 class="icon"
-              / > Hora
+              /> Hora Inicio
             </label>
             <div class="custom-time-picker">
-              <input type="time" id="starTime" name="starTime" class="input-time" required />
+              <input
+                type="time"
+                id="starTime"
+                name="starTime"
+                class="input-time"
+                required
+              />
               <img
                 src="/icons/icon-arrow.svg"
                 alt="Icono Flecha"
-                class="arrowStar"
-              />
-              <img 
-                src="/icons/icon-arrow-right.svg"
-                alt="Flecha icono"
-                class="icon"
-              />
-              <input type="time" id="endTime" name="endTime" class="input-time"/>
-              <img
-                src="/icons/icon-arrow.svg"
-                alt="Icono Flecha"
-                class="arrowEnd"
+                class="arrowStarTime"
               />
             </div>
-            <span class="error" id="hourError"></span>  
+            <span class="error" id="hourError"></span>
           </div>
-
-          <div class="form-group">
-            <label for="priority" class="label-select">
-              <img src="/icons/icon-priority.svg" alt="Prioridad icono" class="icon" /> Prioridad
-            </label>
-            <select id="priority" name="priority" class="select" required>
-              <option selected value="high">Alta</option>
-              <option value="medium">Media</option>
-              <option value="low">Baja</option>
-            </select>
-            <span class="error" id="priorityError"></span>
-          </div>
+          <span class="error" id="dayError"></span>
         </div>
       </div>
-      <!-- Pestaña Recordatorios -->
-      <div class="tab-content" id="reminder" data-tab-content>
-        <div class="form-group-reminder">
-          <div class="form-group">
-            <label for="alert" class="label-select">
-              <img src="/icons/icon-alert.svg" alt="Alerta icono" class="icon" /> Notificación
-            </label>
-            <select id="alert" name="alert" class="select" required>
-              <option disabled selected>Seleccionar alertas</option>
-              <option value="noAlert">No enviar alertas</option>
-              <option value="starAlert">Al iniciar la tarea</option>
-              <option value="dayTask">El dia de la tarea a las 9:00 am</option>
-              <option value="beforeTask">5 minutos antes de la tarea</option>
-            </select>
-            <span class="error" id="alertError"></span>
-          </div>
-
-          <div class="form-group">
-            <label for="repeat" class="label-select">
-              <img src="/icons/icon-repeat.svg" alt="Alerta icono" class="icon" /> Repite
-            </label>
-            <select id="repeat" name="repeat" class="select" required>
-              <option disabled selected>Seleccionar si se repite</option>
-              <option value="noRepeat">No se repite</option>
-              <option value="day">Diariamente</option>
-              <option value="week">Semanalmente (los lunes)</option>
-              <option value="month">Mensual (primer lunes del mes)</option>
-              <option value="year">Anual (la fecha seleccionada)</option>
-            </select>
-            <span class="error" id="repeatError"></span>
-          </div>
+      <div class="form-group">
+        <label for="participant" class="label-participant"
+          >Añadir Participante/es (Opcional)</label
+        >
+        <div class="participant">
+          <img
+            src="/icons/icon-users.svg"
+            alt="Participantes icono"
+            class="icon"
+          />
+          <input
+            type="text"
+            id="participant"
+            name="participant"
+            class="input-participant"
+            placeholder="Nombre o email del participante"
+            required
+          />
         </div>
+        <span class="error" id="participantError"></span>
       </div>
+
+      <div class="form-group">
+        <label for="repeat" class="label-repeat">
+          <img src="/icons/icon-repeat.svg" alt="Alerta icono" class="icon" /> Frecuencia para envío de notificaciones
+        </label>
+        <select id="repeat" name="repeat" class="select" required>
+          <option disabled selected>Seleccionar si se repite</option>
+          <option value="noRepeat">No se repite</option>
+          <option value="day">Diariamente</option>
+          <option value="week">Semanalmente (los lunes)</option>
+          <option value="month">Mensual (primer lunes del mes)</option>
+          <option value="year">Anual (la fecha seleccionada)</option>
+        </select>
+        <span class="error" id="repeatError"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="label-description"> Descripción </label>
+        <textarea
+          id="description"
+          name="description"
+          class="text-description"
+          placeholder="Breve descripción de la actividad"
+          required></textarea>
+        <span class="error" id="descriptionError"></span>
+      </div>
+
       <div class="form-actions">
-        <!-- Botones de "Detalles" -->
-        <div class="action-buttons details-actions">
-          <button type="button" id="cancel-btn" class="cancel-btn">Cancelar</button>
-          <button type="button" id="next" class="next-btn">Siguiente</button>
-        </div>
-        
-        <!-- Botones de "Fecha y Hora" -->
-        <div class="action-buttons date-hour-actions" hidden>
-          <button type="button" id="backDetails" class="cancel-btn">Anterior</button>
-          <button type="button" id="nextReminder" class="next-btn">Siguiente</button>
-        </div>
-        
-        <!-- Botones de "Recordatorios" -->
-        <div class="action-buttons reminder-actions" hidden>
-          <button type="button" id="backDateHour" class="cancel-btn">Anterior</button>
-          <button type="submit" class="next-btn">Crear</button>
-        </div>
-      </div> 
+        <button type="button" id="backDateHour" class="cancel-btn">Anterior</button>
+        <button type="submit" class="next-btn">Crear</button>
+      </div>
     </form>
   </div>
 </div>
 
-<script is:inline src="/src/utils/interactionsCards.js"></script>
-<script is:inline src="/src/utils/validationForm.js"></script>
+<script type="module" src="/src/utils/interactionsCards.js"></script>
+<script type="module" src="/src/utils/validationForm.js"></script>
 
 <style>
-
   .modal {
     position: fixed;
     top: 0;
@@ -203,30 +174,47 @@
   }
 
   .modal-content {
-    background: #fcffff;
-    border-radius: 8px;
-    width: 400px;
-    height: 700px;
-    position: absolute;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.158);
+    background: #fefefe;
+    border-radius: 16px;
+    width: 576px;
+    height: 616px;
+    box-shadow: 0px 1px 2px 0px rgba(41, 79, 84, 0.21);
     display: flex;
     flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    border: solid 2px red;
   }
 
   label {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 5px;
     font-size: 14px;
     font-weight: 500;
-    line-height: 16px;
-    color: #494949;
+    line-height: 24px;
+    color: #6b888c;
+    font-family: var(--font-montserrat);
+  }
+
+  .label-participant,
+  .label-repeat,
+  .label-description {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    color: #4c797d;
+    font-family: var(--font-montserrat);
   }
 
   .form-group {
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-top: 16px;
   }
 
   .form-content {
@@ -238,61 +226,23 @@
   .close-btn {
     background: none;
     border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .header-form {
     display: flex;
-    padding: 24px 24px 24px 24px;
     justify-content: space-between;
     align-items: center;
   }
 
   .modal-title {
-    margin: auto 0;
-    font-size: 20px;
+    margin: 0;
+    font-size: 24px;
     font-weight: 600;
-    color: #494949;
-    line-height: 24px;
-  }
-
-  .btn-icon {
-    aspect-ratio: 1;
-    object-fit: contain;
-    object-position: center;
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-  }
-
-  .tabs {
-    display: flex;
-    gap: 10px;
-    justify-content:space-between;
-    padding: 24px 24px 24px 24px;
-    color: #9F9C9C;
-    border-top: solid 2px #E9E9E9;
-    border-bottom: solid 2px #E9E9E9;
-  }
-
-  .tab {
-    cursor: pointer;
-    border:none;
-    background: none ;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
-  }
-
-  .tab.active {
-    font-weight: 600;
-    color: #28373E;
-  }
-
-  .tab-content {
-    display: none; /* Ocultar por defecto */
-  }
-
-  .tab-content.active {
-    display: block; /* Mostrar cuando activo */
+    color: var(--color-primary);
+    line-height: 16px;
   }
 
   .error {
@@ -300,11 +250,14 @@
     font-size: 10px;
   }
 
-  .form-group-details{
+  .form-group-details {
     display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 24px;
+    gap: 8px;
+    padding: 8px;
+    justify-content: center;
+    align-items: stretch;
+    background: #effbfc;
+    border-radius: 4px;
   }
 
   .form-group-date {
@@ -312,6 +265,19 @@
     flex-direction: column;
     gap: 16px;
     padding: 24px;
+  }
+
+  .form-group-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    background: #fefefe;
+    border-radius: 4px;
+    gap: 8px;
+    padding: 16px;
+    box-sizing: border-box;
+    flex-grow: 1;
   }
 
   .form-group-reminder {
@@ -323,6 +289,7 @@
 
   .form-group-calendar {
     width: 100%;
+    border-radius: 4px;
   }
 
   .arrow {
@@ -330,35 +297,40 @@
     right: 6px;
     pointer-events: none;
     top: 50%;
-
   }
 
   .arrowEnd {
     position: absolute;
     pointer-events: none;
-    right: 6px;
-    transform: translateY(-50%);
-    top: 50%;
+    right: 8px;
+    top: 25%;
   }
 
   .arrowStar {
     position: absolute;
     pointer-events: none;
-    transform: translateY(-50%);
-    top: 50%;
-    left: 125px;
+    top: 25%;
+    left: 120px;
+  }
+
+  .arrowStarTime {
+    position: absolute;
+    pointer-events: none;
+    top: 25%;
+    right: 8px;
   }
 
   .input-date {
     width: 100%;
-    padding: 12px 16px;
-    border-radius: 8px;
-    background: #EEF6F7;
-    font-size: 16px;
-    color: #9cb2b4;
+    padding: 8px;
+    border-radius: 4px;
+    background: #fefefe;
+    font-size: 14px;
+    color: #adcbcc;
     appearance: none;
-    border: none;
-    margin-top: 12px;
+    border: 1px solid rgb(237, 240, 241);
+    font-family: var(--font-montserrat);
+    cursor: pointer;
   }
 
   .custom-date-picker {
@@ -366,25 +338,42 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    
+    gap: 13px;
+    margin-top: 8px;
+  }
+
+  .text-date {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-family: var(--font-montserrat);
+    font-weight: 500;
+    line-height: 16px;
+    color: #808b8c;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+  #end {
+    margin-right: 60px;
   }
 
   .input-date::-webkit-calendar-picker-indicator {
-    opacity: 0; 
+    opacity: 0;
     cursor: pointer;
-    
   }
 
   .input-time {
     width: 100%;
-    padding: 12px 16px;
-    border-radius: 8px;
-    background: #EEF6F7;
-    font-size: 16px;
-    color: #9cb2b4;
-    border: none;
-    box-sizing: border-box;
+    padding: 8px;
+    border-radius: 4px;
+    background: #fefefe;
+    font-size: 14px;
+    color: #adcbcc;
     appearance: none;
+    border: 1px solid rgb(237, 240, 241);
+    font-family: var(--font-montserrat);
+    cursor: pointer;
   }
 
   .input-time img {
@@ -395,30 +384,83 @@
   .custom-time-picker {
     position: relative;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    margin-top: 12px;
+    margin-top: 11px;
   }
 
   .input-time::-webkit-calendar-picker-indicator {
-    cursor: pointer; 
+    cursor: pointer;
     opacity: 0;
   }
 
-  .input {
-    border-radius: 8px;
-    background-color:#EEF6F7;
-    margin-top: 10px;
+  .participant {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    align-self: stretch;
+    padding: 8px;
+    gap: 8px;
+    border-radius: 4px;
+    background: #fafafa;
+  }
+
+  .input-participant {
+    border-radius: 4px;
+    background: #fefefe;
     width: 100%;
     font-size: 14px;
-    color: #28373E;
+    color: #d7dfe0;
     font-weight: 500;
-    line-height: 1;
-    padding: 16px;
-    margin-top: 12px;
+    line-height: 24px;
+    padding: 8px;
+    border: 1px solid #edf0f1;
+    font-family: var(--font-montserrat);
+    cursor: pointer;
+  }
+
+  .input-participant::placeholder {
+    color: #d7dfe0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    font-family: var(--font-montserrat);
+  }
+
+  .input-title {
+    border-radius: 4px;
+    background: #fcfcfc;
+    width: 100%;
+    font-size: 16px;
+    color: #2c97a0;
+    font-weight: 500;
+    padding: 0;
     border: none;
     box-sizing: border-box;
+    font-family: var(--font-montserrat);
+  }
+  .input-title::placeholder {
+    color: #2c97a0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 16px;
+    font-family: var(--font-montserrat);
+    opacity: 0.4;
+  }
+
+  .input-subtitle {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    font-family: var(--font-montserrat);
+    border: none;
+  }
+
+  .input-subtitle::placeholder {
+    color: #6b888c;
+    opacity: 0.4;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+    font-family: var(--font-montserrat);
   }
 
   .select {
@@ -426,16 +468,11 @@
     margin-top: 10px;
     border: none;
     border-radius: 8px;
-    background-color:#EEF6F7;
+    background-color: #eef6f7;
     font-size: 14px;
-    color: #433E3F;
+    color: #433e3f;
     cursor: pointer;
     padding: 16px;
-  }
-
-  .input::placeholder {
-    color: #9cb2b4;
-    opacity: 1;
   }
 
   .text-description {
@@ -443,16 +480,16 @@
     height: 96px;
     border-radius: 8px;
     margin-top: 10px;
-    background:#EEF6F7;
+    background: #eef6f7;
     font-size: 14px;
-    color: #433E3F;
+    color: #433e3f;
     padding: 16px;
     box-sizing: border-box;
     border: none;
   }
 
   .text-description::placeholder {
-    color: #9CB2B4;
+    color: #9cb2b4;
   }
 
   .form-actions {
@@ -462,7 +499,7 @@
     width: 100%;
     box-sizing: border-box;
     margin-top: auto;
-    border-top: solid 2px #E9E9E9;
+    border-top: solid 2px #e9e9e9;
   }
 
   .action-buttons button {
@@ -480,15 +517,14 @@
   }
 
   .next-btn {
-    background: #17484E;
-    color: #E9EFF1;
+    background: #17484e;
+    color: #e9eff1;
     cursor: pointer;
   }
 
   .cancel-btn {
-    background: #E9EFF1;
+    background: #e9eff1;
     color: #494949;
     cursor: pointer;
   }
-
 </style>
