@@ -105,6 +105,7 @@
 <script>
   import { auth } from '../../static/js/firebaseconfig';
   import { onAuthStateChanged, signOut } from 'firebase/auth';
+  import { userData } from '../../stores/store'
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -112,9 +113,18 @@
       const userName = document.getElementById('userName');
       const userEmail = document.getElementById('userEmail');
 
-      if (userPhoto) userPhoto.src = user.photoURL || '';
+      if (userPhoto) userPhoto.src = user.photoURL || ''; 
       if (userName) userName.textContent = `${user.displayName}`;
       if (userEmail) userEmail.textContent = `${user.email}`;
+
+      userData.set(
+        {
+          userPhoto: user.photoURL || '',
+          userName: user.displayName!,
+          userEmail: user.email!
+        }
+      )
+
     } else {
       window.location.href = '/login';
     }
@@ -124,6 +134,13 @@
   if (logoutButton) {
     logoutButton.addEventListener('click', () => {
       signOut(auth).then(() => {
+        userData.set(
+        {
+          userPhoto: '',
+          userName: '',
+          userEmail: ''
+        }
+      )
         window.location.href = '/login';
       }).catch((error) => {
         console.error('Error al cerrar sesión:', error);
