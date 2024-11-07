@@ -1,53 +1,31 @@
-
 // Función de validación del formulario
 function validateForm() {
     let isValid = true;
 
-    // Validación del nombre de la tarea
-    const nameInput = document.getElementById("name");
-    const nameError = document.getElementById("nameError");
-    if (nameInput.value.trim() === "") {
-        nameError.textContent = "El nombre de la tarea es obligatorio.";
+    // Validación del título del recordatorio
+    const titleInput = document.getElementById("title");
+    const titleError = document.getElementById("titleError");
+    if (titleInput.value.trim() === "") {
+        titleError.textContent = "El título del recordatorio es obligatorio.";
         isValid = false;
     } else {
-        nameError.textContent = "";
+        titleError.textContent = "";
     }
 
-    // Validación de participantes
-    const participantInput = document.getElementById("participant");
-    const participantError = document.getElementById("participantError");
-    if (participantInput.value.trim() === "") {
-        participantError.textContent = "Debe ingresar al menos un participante.";
-        isValid = false;
-    } else {
-        participantError.textContent = "";
-    }
-
-    // Validación del estado
-    const statusInput = document.getElementById("status");
-    const statusError = document.getElementById("statusError");
-    if (!statusInput.value) {
-        statusError.textContent = "Seleccione un estado.";
-        isValid = false;
-    } else {
-        statusError.textContent = "";
-    }
-
-    // Validación de la descripción
-    const descriptionInput = document.getElementById("description");
-    const descriptionError = document.getElementById("descriptionError");
-    if (descriptionInput.value.trim() === "") {
-        descriptionError.textContent = "La descripción es obligatoria.";
-        isValid = false;
-    } else {
-        descriptionError.textContent = "";
-    }
-
-    // Validación de la fecha
-    const dayInput = document.getElementById("day");
+    // Validación de la fecha de inicio
+    const dayStartInput = document.getElementById("dayStar");
     const dayError = document.getElementById("dayError");
-    if (dayInput.value.trim() === "") {
-        dayError.textContent = "Seleccione una fecha.";
+    if (dayStartInput.value.trim() === "") {
+        dayError.textContent = "Seleccione una fecha de inicio.";
+        isValid = false;
+    } else {
+        dayError.textContent = "";
+    }
+
+    // Validación de la fecha de fin (opcional)
+    const dayEndInput = document.getElementById("dayEnd");
+    if (dayEndInput.value.trim() !== "" && dayStartInput.value > dayEndInput.value) {
+        dayError.textContent = "La fecha de fin debe ser posterior a la fecha de inicio.";
         isValid = false;
     } else {
         dayError.textContent = "";
@@ -63,35 +41,6 @@ function validateForm() {
         hourError.textContent = "";
     }
 
-    // Validación de la hora de fin (opcional)
-    const endTimeInput = document.getElementById("endTime");
-    if (endTimeInput.value.trim() !== "" && startTimeInput.value > endTimeInput.value) {
-        hourError.textContent = "La hora de fin debe ser posterior a la de inicio.";
-        isValid = false;
-    } else if (endTimeInput.value.trim() === "" || startTimeInput.value <= endTimeInput.value) {
-        hourError.textContent = "";
-    }
-
-    // Validación de la prioridad
-    const priorityInput = document.getElementById("priority");
-    const priorityError = document.getElementById("priorityError");
-    if (!priorityInput.value) {
-        priorityError.textContent = "Seleccione una prioridad.";
-        isValid = false;
-    } else {
-        priorityError.textContent = "";
-    }
-
-    // Validación de la notificación
-    const alertInput = document.getElementById("alert");
-    const alertError = document.getElementById("alertError");
-    if (!alertInput.value) {
-        alertError.textContent = "Seleccione una opción de notificación.";
-        isValid = false;
-    } else {
-        alertError.textContent = "";
-    }
-
     // Validación de la repetición
     const repeatInput = document.getElementById("repeat");
     const repeatError = document.getElementById("repeatError");
@@ -102,7 +51,37 @@ function validateForm() {
         repeatError.textContent = "";
     }
 
+    // Validación de la descripción
+    const descriptionInput = document.getElementById("description");
+    const descriptionError = document.getElementById("descriptionError");
+    if (descriptionInput.value.trim() === "") {
+        descriptionError.textContent = "La descripción es obligatoria.";
+        isValid = false;
+    } else {
+        descriptionError.textContent = "";
+    }
+
+    // Validación de participantes (opcional)
+    const participantInput = document.getElementById("participant");
+    const participantError = document.getElementById("participantError");
+    if (participantInput.value.trim() !== "" && !validateEmailOrName(participantInput.value.trim())) {
+        participantError.textContent = "El nombre o correo del participante no es válido.";
+        isValid = false;
+    } else {
+        participantError.textContent = "";
+    }
+
     return isValid;
+}
+
+// Función auxiliar para validar si el valor ingresado es un nombre o un correo electrónico válido
+function validateEmailOrName(value) {
+    // Expresión regular para validar correo electrónico
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Expresión regular para validar un nombre (letras y espacios)
+    const nameRegex = /^[a-zA-Z\s]+$/;
+
+    return emailRegex.test(value) || nameRegex.test(value);
 }
 
 // Exportar la función
