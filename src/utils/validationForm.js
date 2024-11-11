@@ -64,11 +64,14 @@ function validateForm() {
     // Validación de participantes (opcional)
     const participantInput = document.getElementById("participant");
     const participantError = document.getElementById("participantError");
-    if (participantInput.value.trim() !== "" && !validateEmailOrName(participantInput.value.trim())) {
-        participantError.textContent = "El nombre o correo del participante no es válido.";
-        isValid = false;
-    } else {
-        participantError.textContent = "";
+    if (participantInput.value.trim() !== "") {
+        const participants = participantInput.value.split(',').map(item => item.trim());
+        if (!participants.every(validateEmailOrName)) {
+            participantError.textContent = "Algunos participantes tienen formato inválido.";
+            isValid = false;
+        } else {
+            participantError.textContent = "";
+        }
     }
 
     return isValid;
