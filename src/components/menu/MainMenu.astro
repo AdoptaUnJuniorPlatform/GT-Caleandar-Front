@@ -12,11 +12,13 @@ import Calendar from "./Calendar.astro";
       <a href="/calendar" class="menu__item"><div class="home__icon-space"><img src="/icons/calendar.svg" alt="calendar-icon">  Calendario</div></a>
     </div>
   </div>
-  <button id="new-reminder" class="new__button-reminder">
+  <button id="new-reminder" class="new-reminder new__button-reminder">
     <img src="./icons/plus.svg" alt="new-reminder">
     <span>Nuevo Recordatorio</span>
   </button>
 </div>
+
+<script type="module" is:inline src="/src/utils/openReminderForm.js"></script>
 
 <style>
   .menu__container {

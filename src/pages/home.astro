@@ -19,13 +19,15 @@ import HomeLayout from "../layouts/HomeLayout.astro";
           <img src="./images/home-image.svg" alt="home-image">
         </div>
       </div>
-      <button id="new-reminder" class="card__container-button">
+      <button id="new-reminder" class="new-reminder card__container-button">
         <img src="./icons/plus-white.svg" alt="new-reminder" />
         <span>Nuevo Recordatorio</span>
       </button>
     </div>
   </div>
 </HomeLayout>
+
+<script type="module" is:inline src="/src/utils/openReminderForm.js"></script>
 
 <style>
   .home__container {
