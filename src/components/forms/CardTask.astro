@@ -12,7 +12,7 @@
         <img src="/icons/icon-close.svg" alt="Cerrar" class="icon" />
       </button>
     </div>
-    <form id="taskForm" class="form-content" onsubmit="handleFormSubmit(event)">
+    <form id="taskForm" class="form-content">
       <div class="form-group-details">
         <div class="form-group-title">
           <input
@@ -126,11 +126,8 @@
       </div>
 
       <div class="form-actions">
-        <button type="button" id="cancelBtn" class="cancel-btn">Cancelar</button
-        >
-        <button type="submit" id="submit-btn" class="submit-btn"
-          >Crear Recordatorio</button
-        >
+        <button type="button" id="cancelBtn" class="cancel-btn">Cancelar</button>
+        <button type="submit" id="submit-btn" class="submit-btn">Crear Recordatorio</button>
       </div>
       <span id="formError" class="error"></span>
     </form>
