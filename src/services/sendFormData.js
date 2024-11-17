@@ -24,12 +24,12 @@ export default async function sendFormData(data) {
 
     // Procesar participantes (opcional)
     const requestData = {
-        ...data,
-        userId,
-        participants: data.participant
-            ? data.participant.split(',').map(item => item.trim())
-            : [],
-    };
+    ...data,
+    userId,
+    participants: data.participants
+        ? data.participants.split(',').map(item => item.trim())
+        : [],
+};
 
     // Enviar los datos al backend
     try {
