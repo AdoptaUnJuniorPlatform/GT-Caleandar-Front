@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, setPersistence, browserLocalPersistence } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 
-const firebaseConfig = {
+export const firebaseConfig = {
     apiKey: import.meta.env.PUBLIC_API_KEY,
     authDomain: import.meta.env.PUBLIC_AUTH_DOMAIN,
     databaseURL: import.meta.env.PUBLIC_DATABASE_URL,

@@ -1,22 +1,33 @@
 import validateForm from "../utils/validationForm";
 import sendFormData from "./sendFormData";
 
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("taskForm");
+  form.addEventListener("submit", handleFormSubmit);
+});
+
+
 // Función para manejar el envío del formulario
 export async function handleFormSubmit(event) {
+//console.log('Formulario enviado');// prueba de que conecta
     event.preventDefault();
 
     // Validar el formulario
     const isValid = validateForm();
+  //  console.log('Formulario válido:', isValid); // Log de validación
     if (!isValid) return;
 
     // Obtener los datos del formulario
     const form = document.getElementById("taskForm");
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
+   // console.log('Datos del formulario:', data); // Log de los datos del formulario
+
     const formError = document.getElementById("formError");
     
     // Enviar los datos al backend
     try {
+        console.log('Enviando datos al servidor...'); // Log de inicio de envío
         await sendFormData(data);
         alert("Recordatorio creado exitosamente.");
         formError.textContent = "";
@@ -32,6 +43,6 @@ export async function handleFormSubmit(event) {
             formError.textContent = "Hubo un error al enviar el formulario. Inténtalo de nuevo más tarde.";
         }
     
-        console.error("Error al enviar los datos:", error);
+        console.error("Error al enviar los datos:", error); // Log del error
     }
 }

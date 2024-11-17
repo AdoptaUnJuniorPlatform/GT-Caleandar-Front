@@ -1,6 +1,20 @@
+
+// Importar los módulos necesarios de Firebase (v9+)
+import { getAuth } from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { firebaseConfig } from "../static/js/firebaseconfig.js";// Asegúrate de tener este archivo con tu configuración
+
+// Inicializar Firebase con la configuración de tu proyecto
+const app = initializeApp(firebaseConfig);
+
 // Función para enviar los datos al backend
 export default async function sendFormData(data) {
-    const user = firebase.auth().currentUser;
+    console.log('Enviando datos al servidor:', data);
+
+    // Obtener la instancia de autenticación
+    const auth = getAuth(app);  // Inicializa el auth con la app de Firebase
+    const user = auth.currentUser;
+
     if (!user) {
         throw new Error("No estás autenticado.");
     }
@@ -10,26 +24,36 @@ export default async function sendFormData(data) {
 
     // Procesar participantes (opcional)
     const requestData = {
-        ...data,
-        userId,
-        participants: data.participant
-            ? data.participant.split(',').map(item => item.trim())
-            : [],
-    };
+    ...data,
+    userId,
+    participants: data.participants
+        ? data.participants.split(',').map(item => item.trim())
+        : [],
+};
 
-    const response = await fetch('http://localhost:5001/caleandar-leanmind/us-central1/endDatos', {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${idToken}`,
-        },
-        body: JSON.stringify(requestData),
-    });
+    // Enviar los datos al backend
+    try {
+        const response = await fetch('http://localhost:5001/caleandar-leanmind/us-central1/endDatos', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${idToken}`,  // Autenticación por token
+            },
+            body: JSON.stringify(requestData),
+        });
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Error al enviar los datos.");
+        // Verificar si la respuesta es exitosa
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Error al enviar los datos.");
+        }
+
+        const responseData = await response.json();
+        console.log('Respuesta del backend:', responseData);  // Log para verificar la respuesta
+
+        return responseData;
+    } catch (error) {
+        console.error("Error al enviar los datos al backend:", error);
+        throw error;
     }
-
-    return await response.json();
 }
