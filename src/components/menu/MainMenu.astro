@@ -1,4 +1,5 @@
 ---
+import NewReminderButton, { Width } from "../shared/NewReminderButton.astro";
 import Calendar from "./Calendar.astro";
 ---
 
@@ -9,13 +10,11 @@ import Calendar from "./Calendar.astro";
       <span class="menu__text">Mi Área Personal</span>
       <hr class="menu__divider" />
       <a href="/reminders" class="nav-link menu__item" data-page="/reminders"><div class="home__icon-space"><img src="/icons/bell.svg" alt="bell-icon">  Mis Recordatorios</div>  <span class="item__count">0</span></a>
-      <a href="/calendar" class="nav-link menu__item" data-page="/calendar"><div class="home__icon-space"><img src="/icons/calendar.svg" alt="calendar-icon">  Calendario</div></a>
     </div>
   </div>
-  <button id="new-reminder" class="new__button-reminder">
-    <img src="./icons/plus.svg" alt="new-reminder">
-    <span>Nuevo Recordatorio</span>
-  </button>
+  <div class="menu__button-container">
+    <NewReminderButton width={Width.MEDIUM} dark={false} bold={false} height={40}/>
+  </div>
 </div>
 
 <style>
@@ -26,30 +25,12 @@ import Calendar from "./Calendar.astro";
     flex: auto;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     background: var(--color-white-alt);
   }
   .full-menu{
     display: flex;
     flex-direction: column;
     gap: 2rem;
-  }
-  .new__button-reminder{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    border-radius: .5rem;
-    padding: 12px 16px;
-    font-family: var(--font-monserrat);
-    font-weight: 600;
-    border: 1px solid var(--border-color);
-    cursor: pointer;
-    background: var(--color-gray-alt2);
-  }
-  .new__button-reminder:hover{
-    background: color-mix(in srgb, var(--color-gray-alt2) 90%, white 30%);
   }
   .menu__text{
     font-size: 14px;
@@ -90,5 +71,8 @@ import Calendar from "./Calendar.astro";
     flex-direction: row;
     gap: 11px;
     align-items: center;
+  }
+  .menu__button-container{
+    margin-top: 5rem;
   }
 </style>

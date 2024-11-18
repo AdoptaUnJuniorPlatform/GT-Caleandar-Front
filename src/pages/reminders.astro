@@ -1,7 +1,88 @@
 ---
 import HomeLayout from "../layouts/HomeLayout.astro";
+import NewReminderButton, { Width } from "../components/shared/NewReminderButton.astro";
+import BigCalendar from "../components/reminders/BigCalendar.astro";
+
 ---
 
 <HomeLayout title="Reminders - LeanMind">
-  <h1>Reminders page</h1>
+  <div class="reminder__container">
+    <section class="reminder-header__section">
+      <div class="reminder-top-header">
+        <div class="reminder-text__container">
+          <h1>Mis Recordatorios</h1>
+          <span>Que no se te pase ninguna tarea</span>
+        </div>
+        <NewReminderButton width={Width.SMALL} bold={false} dark={false} height={36} />
+      </div>
+      <div class="reminder-bottom-header">
+        <div class="reminder-bottom-header-left">
+          <img src="./icons/eye.svg" alt="eye-icon">
+          <span>Vista</span>
+          <button><img src="./icons/dashboard.svg" alt="dashboard-icon">Tablero</button>
+          <button><img src="./icons/list.svg" alt="list-icon">Lista</button>
+          <button><img src="./icons/boxes.svg" alt="boxes-icon">Tabla</button>
+        </div>
+        <div class="reminder-bottom-header-right">
+          <button>Diaria</button>
+          <button>Semanal</button>
+          <button>Mensual</button>
+          <button>Anual</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="reminder-body__section">
+      <div class="reminder-body-header">
+        <span class="reminder-body-header-title">Mensualmente</span>
+        <div class="reminder-body-controls">
+          <div class="arrow-buttons">
+            <button id="prev-button"><img src="./icons/arrow-left.svg" alt="arrow-left-icon"></button>
+            <button id="next-button"><img src="./icons/arrow-right.svg" alt="arrow-right-icon"></button>
+          </div>
+          <button class="yesterday-button" id="yesterday-button"></button>
+          <div class="full-control">
+            <span></span>
+            <span id="current-month"></span>
+            <div class="full-control-right">
+              <div class="arrow-buttons">
+                <button><img src="./icons/arrow-left.svg" alt="arrow-left-icon"></button>
+                <button><img src="./icons/arrow-right.svg" alt="arrow-right-icon"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reminder-body">
+        <BigCalendar />
+      </div>
+    </section>
+  </div>
 </HomeLayout>
+
+<script>
+  
+  import { currentDateState, currentMonthState } from '../stores/store'
+
+  const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+  const prevButton = document.getElementById('prev-button') as HTMLButtonElement
+  const nextButton = document.getElementById('next-button') as HTMLButtonElement
+  const currentMonth = document.getElementById('current-month') as HTMLElement
+  const currentYear = document.getElementById('yesterday-button') as HTMLElement
+
+  prevButton.addEventListener('click',()=>{
+    currentMonthState.set(currentMonthState.get() - 1)
+  })
+
+  nextButton.addEventListener('click',()=>{
+    currentMonthState.set(currentMonthState.get() + 1)
+  })
+
+  currentMonthState.subscribe(()=>{
+    console.log(currentMonthState.get())
+    console.log(monthNames[currentMonthState.get()])
+    currentYear.textContent = currentDateState.get().getFullYear().toString();
+    currentMonth.textContent = monthNames[currentMonthState.get()]
+  })
+</script>
