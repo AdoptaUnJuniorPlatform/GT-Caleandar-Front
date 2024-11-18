@@ -1,5 +1,6 @@
 
 ---
+import NewReminderButton, { Width } from "../components/shared/NewReminderButton.astro";
 import HomeLayout from "../layouts/HomeLayout.astro";
 ---
 
@@ -19,10 +20,7 @@ import HomeLayout from "../layouts/HomeLayout.astro";
           <img src="./images/home-image.svg" alt="home-image">
         </div>
       </div>
-      <button id="new-reminder" class="card__container-button">
-        <img src="./icons/plus-white.svg" alt="new-reminder" />
-        <span>Nuevo Recordatorio</span>
-      </button>
+      <NewReminderButton width={Width.FULL} bold={true} dark={true} height={40} />
     </div>
   </div>
 </HomeLayout>
@@ -95,46 +93,14 @@ import HomeLayout from "../layouts/HomeLayout.astro";
     font-size: 20px;
     font-weight: 600;
   }
-  .card__container-button {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 12px 16px;
-    gap: 8px;
-    width: 512px;
-    height: 44px;
-    background: var(--bg-color-primary);
-    color: white;
-    border-radius: 8px;
-    flex: none;
-    order: 0;
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: var(--font-monserrat);
-    align-self: stretch;
-    flex-grow: 0;
-    cursor: pointer;
-    border: none;
-  }
-  .card__container-button:hover {
-    opacity: 0.9;
-  }
 </style>
 
 <script>
   import { userData } from "../stores/store";
-
-  const newRemiderButton = document.getElementById('new-reminder') as HTMLButtonElement
 
   userData.subscribe((user) => {
     const userName = document.getElementById("username");
 
     if (userName) userName.textContent = user.userName.split(" ")[0];
   });
-
-  newRemiderButton.addEventListener('click',()=>{
-    
-  })
-
 </script>
