@@ -41,14 +41,35 @@ function validateForm() {
         hourError.textContent = "";
     }
 
-    // Validación de la repetición
-    const repeatInput = document.getElementById("repeat");
-    const repeatError = document.getElementById("repeatError");
-    if (!repeatInput.value) {
-        repeatError.textContent = "Seleccione una opción de repetición.";
+    // Validación de la frecuencia de repetición
+    const frequencyError = document.getElementById("repeatError");
+    const selectedFrequency = document.querySelector('.freq-btn.active');
+
+    if (!selectedFrequency) {
+        frequencyError.textContent = "Seleccione una opción de repetición.";
         isValid = false;
     } else {
-        repeatError.textContent = "";
+        const frequencyValue = parseInt(selectedFrequency.dataset.value, 10);
+        frequencyError.textContent = "";
+
+        if (frequencyValue === 2) { // Validación semanal
+            const selectedDays = document.querySelectorAll('.day-btn.active'); // Días seleccionados
+            const weeklyFrequency = document.querySelector('.week-frequency .freq-btn.active'); // Frecuencia semanal seleccionada
+
+            if (selectedDays.length === 0) {
+                frequencyError.textContent = "Seleccione al menos un día de la semana.";
+                isValid = false;
+            } else if (!weeklyFrequency) {
+                frequencyError.textContent = "Seleccione cada cuántas semanas se repite.";
+                isValid = false;
+            }
+        } else if (frequencyValue === 3) { // Validación mensual
+            const selectedMonthlyOption = document.querySelector('.monthly-option.active'); // Opción mensual seleccionada
+            if (!selectedMonthlyOption) {
+                frequencyError.textContent = "Seleccione una opción mensual válida.";
+                isValid = false;
+            }
+        }
     }
 
     // Validación de la descripción

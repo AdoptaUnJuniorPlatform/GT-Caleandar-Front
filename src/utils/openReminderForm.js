@@ -6,6 +6,7 @@ const closeModal = document.getElementById('closeBtn');
 const reminderButtons = document.querySelectorAll('.new-reminder');
 const handleCloseModal = () => {
     openReminderForm.set(false);
+
 };
 
 cancelModal.addEventListener('click', handleCloseModal);

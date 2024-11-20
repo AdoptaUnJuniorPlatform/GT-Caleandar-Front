@@ -1,4 +1,3 @@
-
 // Importar los módulos necesarios de Firebase (v9+)
 import { getAuth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
@@ -24,12 +23,9 @@ export default async function sendFormData(data) {
 
     // Procesar participantes (opcional)
     const requestData = {
-    ...data,
-    userId,
-    participants: data.participants
-        ? data.participants.split(',').map(item => item.trim())
-        : [],
-};
+        ...data,
+        userId,
+    };
 
     // Enviar los datos al backend
     try {

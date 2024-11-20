@@ -96,21 +96,49 @@
       </div>
       <div class="form-group">
         <label for="repeat" class="label-repeat"
-          >Frecuencia para envío de notificaciones</label
-        >
-        <div class="select-repeat">
-          <img src="/icons/icon-repeat.svg" alt="Alerta icono" class="icon" />
-            <select id="repeat" name="repeat" class="select" required>
-                <option value="" disabled selected>Seleccionar si se repite</option>
-                <option value="noRepeat">Nunca</option>
-                <option value="day">Diariamente</option>
-                <option value="week">Semanalmente (los lunes)</option>
-                <option value="month">Mensual</option>
-                <option value="year">Anual</option>
-                <option value="custom" disabled>Personalizar</option>
-            </select>
-          <span class="error" id="repeatError"></span>
+          >¿Cuando se repiten tus notificaciones?</label>
+          <div class="frequency-container">
+            <div class="frequency-buttons" data-frequency>
+              <button type="button" class="freq-btn" data-value="0">No repetir</button>
+              <button type="button" class="freq-btn" data-value="1">Diaria</button>
+              <button type="button" class="freq-btn" data-value="2">Semanal
+                <img src="/icons/icon-arrow.svg" alt="Arrow icono" class="icon" /></button>
+              <button type="button" class="freq-btn" data-value="3">Mensual
+                <img src="/icons/icon-arrow.svg" alt="Arrow icono" class="icon" />
+              </button>
+              <button type="button" class="freq-btn" data-value="4">Anual</button>
+            </div>
+    
+            <div id="weekly-options" class="frequency-options">
+              <p>Seleccionar días de la semana se repite (puedes elegir varios días)</p>
+              <div class="week-days">
+                <button type="button" class="day-btn" data-value="1">L</button>
+                <button type="button" class="day-btn" data-value="2">M</button>
+                <button type="button" class="day-btn" data-value="3">X</button>
+                <button type="button" class="day-btn" data-value="4">J</button>
+                <button type="button" class="day-btn" data-value="5">V</button>
+              </div>
+              <p>Elige cada cuantas semanas se repite</p>
+              <div class="week-frequency">
+                <button type="button" class="freq-btn" data-value="1">1</button>
+                <button type="button" class="freq-btn" data-value="2">2</button>
+                <button type="button" class="freq-btn" data-value="3">3</button>
+              </div>
+            </div>
+            <div id="monthly-options" class="frequency-options">
+                <p>Seleccionar cuando se repite (Día del mes laborable)</p>
+                <div class="monthly-options">
+                    <button type="button" class="monthly-option" data-value="1">Día seleccionado</button>
+                    <button type="button" class="monthly-option" data-value="2">1er día</button>
+                    <button type="button" class="monthly-option" data-value="3">2° día</button>
+                    <button type="button" class="monthly-option" data-value="4">3er día</button>
+                    <button type="button" class="monthly-option" data-value="5">Antepenúltimo día</button>
+                    <button type="button" class="monthly-option" data-value="6">Penúltimo día</button>
+                    <button type="button" class="monthly-option" data-value="7">Último día</button>
+                </div>
+            </div>
         </div>
+        <span class="error" id="repeatError"></span>
       </div>
 
       <div class="form-group">
@@ -137,7 +165,7 @@
 <script type="module" is:inline src="/src/utils/openReminderForm.js"></script>
 <script type="module" is:inline src="/src/utils/validationForm.js"></script>
 <script type="module" is:inline src="/src/services/handleFormSubmit.js"></script>
-
+<script type="module" is:inline src="/src/utils/frecuencySelect.js"></script>
 
 <style>
   .modal {
@@ -186,9 +214,9 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
-    line-height: 32px;
+    line-height: 20px;
     color: #207881;
     font-family: var(--font-montserrat);
   }
@@ -256,7 +284,6 @@
     width: 100%;
     background: #fefefe;
     border-radius: 4px;
-    padding: 12px;
     box-sizing: border-box;
     flex-grow: 1;
   }
@@ -408,6 +435,7 @@
     border-radius: 4px;
     background: #fefefe;
     width: 100%;
+    padding: 8px;
     font-size: 18px;
     color: #2c97a0;
     font-weight: 600;
@@ -423,39 +451,159 @@
     font-family: var(--font-montserrat);
     opacity: 0.4;
   }
-  .select {
+  .frequency-container {
+    padding: 16px 0px 0px;
     width: 100%;
-    border-radius: 4px;
-    padding: 8px; 
-    background: #fefefe;
-    border: none;
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 500;
-    color: #45B5BC;
-    cursor: pointer;
-    font-family: var(--font-montserrat);
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("icons/icon-arrow.svg");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    box-sizing: border-box;
+    max-width: 600px;
   }
 
-  .select:invalid {
-    color: #ADCBCC;
+  .frequency-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
   }
-  .select-repeat {
+
+  .frequency-buttons button {
+    font-size: 14px;
+    font-weight: 400;
+    padding: 8px 4px;
+    line-height: 20px;
+    font-family: var(--font-montserrat);
+    border-radius: 4px;
+    border: 1px solid #D7DFE0;
+    background: #FEFEFE;
+    color: #6B888C;
+    display: flex;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    flex: 1 0 0;
+  }
+
+  .frequency-buttons button.active {
+    background: #D3E3E4;
+    color: #1F636B;
+    font-weight: 500;
+  }
+
+  .freq-btn {
+    padding: 8px 16px;
+    border: none;
+    background: #EAF1F2;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #45B5BC;
+    margin-right: 8px;
+  }
+
+  .freq-btn.active {
+    background: #2C97A0;
+    color: #EAF1F2;
+    border: none;
+  }
+
+  .icon {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    margin-left: 8px; 
+    width: 20px;
+    height: 20px;
+  }
+
+  .freq-btn.expanded .icon {
+    transform: rotate(90deg);
+  }
+
+  .frequency-options {
+    display: none;
+    padding: 12px 0px 0px;
+    font-family: var(--font-montserrat);
+  }
+
+  .frequency-options.visible {
+    display: block;
+  }
+
+  .frequency-options p {
+    color: #207881;
+    font-size: 14px;
+    margin-bottom: 12px;
+    font-weight: 500;
+    font-family: var(--font-montserrat);
+  }
+
+  .week-days, .week-frequency {
     display: flex;
     align-items: center;
-    align-self: stretch;
     gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  #weekly-options button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16px;
+    width: 32px;
+    height: 32px;
+    padding: 8px;
+    font-family: var(--font-montserrat);
+  }
+
+  .day-btn {
+    background: #EAF1F2;
+    color: #45B5BC;
     border-radius: 4px;
-    padding: 8px 0px 8px 8px;;
-    background: #EDF0F1;
-    box-sizing: border-box;
+    cursor: pointer;
+    border: none;
+    margin-right: 8px;
+  }
+
+  .day-btn.active {
+    background-color: #2C97A0;
+    color: #EAF1F2;
+  }
+
+  .monthly-options {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 8px;
     width: 100%;
+    justify-content: center; 
+}
+
+.monthly-option {
+  padding: 8px 16px;
+  border: none;
+  background: #EAF1F2;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #45B5BC;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-montserrat);
+  text-align: center;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  white-space: nowrap;
+}
+.monthly-option:nth-child(-n+4) {
+  flex: 1 1 calc(25% - 8px);
+  max-width: calc(25% - 8px);
+}
+
+.monthly-option:nth-child(n+5) {
+  flex: 1 1 calc(33.33% - 8px);
+  max-width: calc(33.33% - 8px);
+}
+
+  .monthly-option.active {
+    background: #2C97A0;
+    color: #EAF1F2;
   }
 
   .text-description {
