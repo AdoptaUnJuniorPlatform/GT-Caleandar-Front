@@ -17,7 +17,7 @@ const { width , dark, bold, height } = Astro.props
 
 <button 
   id="new-reminder" 
-  class="card__container-button" 
+  class="card__container-button new-reminder" 
   style={
     `--button-color: ${dark ? 'var(--bg-color-dark)' : 'var(--bg-color-primary-alt)'};
      --button-weight: ${bold ? '600' : '500'};
@@ -28,7 +28,9 @@ const { width , dark, bold, height } = Astro.props
     `
   }>
   <img src="./icons/plus-white.svg" alt="new-reminder" />
-  <span>Nuevo Recordatorio</span>
+
+  <span>Crear Recordatorio</span>
+
 </button>
 
 <style>
@@ -42,9 +44,9 @@ const { width , dark, bold, height } = Astro.props
     font-size: var(--button-font-size);
     gap: 8px;
     height: var(--button-height, auto);
-    background: var(--button-color, blue);
+    background: #1F636B;
     font-weight: var(--button-weight, 500);
-    color: white;
+    color: #FAFAFA;
     border-radius: 8px;
     flex: none;
     order: 0;
