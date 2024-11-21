@@ -1,5 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
+
+export const prerender = false;
 ---
 <Layout title="login">
   <div class="grid-container">
@@ -42,7 +44,17 @@ import Layout from "../layouts/Layout.astro";
   </div> 
 </Layout>
 
-<script type="module" is:inline src="/src/utils/validationLogin.js"></script>
+<script type="module" is:inline src="/src/utils/authService.js"></script>
+<script type="module" is:inline src="/src/utils/domHandlers.js"></script>
+
+<script type="module" is:inline>
+  import { setupLoginButton, handleAuthState } from "/src/utils/domHandlers.js";
+
+  document.addEventListener("DOMContentLoaded", () => {
+      setupLoginButton();
+      handleAuthState();
+  });
+</script>
 
 <style>
   .grid-container {
