@@ -5,12 +5,10 @@ import { getFrequencyData, resetFrequencyForm } from "../utils/frecuencySelect";
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("taskForm");
     form.addEventListener("submit", handleFormSubmit);
-    console.log("Inicialización completada"); // Añadir para depuración
 });
 
 // Función para manejar el envío del formulario
 export async function handleFormSubmit(event) {
-    console.log('Formulario enviado'); // prueba de que conecta
     event.preventDefault();
 
     const isValid = validateForm();
@@ -26,7 +24,6 @@ export async function handleFormSubmit(event) {
         : [];
 
     const frequencyData = getFrequencyData();
-    console.log("Datos de frecuencia:", frequencyData); // Añadir para depuración
 
     const requestData = {
         ...data,

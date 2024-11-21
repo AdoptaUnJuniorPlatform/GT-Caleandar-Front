@@ -1,4 +1,5 @@
 import { openReminderForm } from "../stores/store";
+import { resetFrequencyForm } from "./frecuencySelect";
 
 const modal = document.querySelector(".modal");
 const cancelModal = document.getElementById('cancelBtn');
@@ -6,7 +7,7 @@ const closeModal = document.getElementById('closeBtn');
 const reminderButtons = document.querySelectorAll('.new-reminder');
 const handleCloseModal = () => {
     openReminderForm.set(false);
-
+    resetFrequencyForm();
 };
 
 cancelModal.addEventListener('click', handleCloseModal);

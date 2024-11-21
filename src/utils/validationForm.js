@@ -53,8 +53,8 @@ function validateForm() {
         frequencyError.textContent = "";
 
         if (frequencyValue === 2) { // Validación semanal
-            const selectedDays = document.querySelectorAll('.day-btn.active'); // Días seleccionados
-            const weeklyFrequency = document.querySelector('.week-frequency .freq-btn.active'); // Frecuencia semanal seleccionada
+            const selectedDays = document.querySelectorAll('.day-btn.active'); 
+            const weeklyFrequency = document.querySelector('.week-frequency .freq-btn.active'); 
 
             if (selectedDays.length === 0) {
                 frequencyError.textContent = "Seleccione al menos un día de la semana.";
@@ -64,7 +64,7 @@ function validateForm() {
                 isValid = false;
             }
         } else if (frequencyValue === 3) { // Validación mensual
-            const selectedMonthlyOption = document.querySelector('.monthly-option.active'); // Opción mensual seleccionada
+            const selectedMonthlyOption = document.querySelector('.monthly-option.active'); 
             if (!selectedMonthlyOption) {
                 frequencyError.textContent = "Seleccione una opción mensual válida.";
                 isValid = false;

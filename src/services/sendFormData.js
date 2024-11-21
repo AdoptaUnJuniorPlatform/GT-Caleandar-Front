@@ -8,8 +8,6 @@ const app = initializeApp(firebaseConfig);
 
 // Función para enviar los datos al backend
 export default async function sendFormData(data) {
-    console.log('Enviando datos al servidor:', data);
-
     // Obtener la instancia de autenticación
     const auth = getAuth(app);  // Inicializa el auth con la app de Firebase
     const user = auth.currentUser;
@@ -45,8 +43,7 @@ export default async function sendFormData(data) {
         }
 
         const responseData = await response.json();
-        console.log('Respuesta del backend:', responseData);  // Log para verificar la respuesta
-
+    
         return responseData;
     } catch (error) {
         console.error("Error al enviar los datos al backend:", error);
