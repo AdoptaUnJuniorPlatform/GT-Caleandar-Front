@@ -1,4 +1,5 @@
 ---
+import NewReminderButton, { Width } from "../shared/NewReminderButton.astro";
 import Calendar from "./Calendar.astro";
 ---
 
@@ -12,10 +13,13 @@ import Calendar from "./Calendar.astro";
       <a href="/calendar" class="menu__item"><div class="home__icon-space"><img src="/icons/calendar.svg" alt="calendar-icon">  Calendario</div></a>
     </div>
   </div>
-  <button id="new-reminder" class="new-reminder new__button-reminder">
+  <!-- <button id="new-reminder" class="new-reminder new__button-reminder">
     <img src="./icons/plus.svg" alt="new-reminder">
     <span>Nuevo Recordatorio</span>
-  </button>
+  </button> -->
+  <div class="menu__button-container">
+    <NewReminderButton width={Width.MEDIUM} dark={false} bold={false} height={40}/>
+  </div>
 </div>
 
 <script type="module" is:inline src="/src/utils/openReminderForm.js"></script>
@@ -92,5 +96,8 @@ import Calendar from "./Calendar.astro";
     flex-direction: row;
     gap: 11px;
     align-items: center;
+  }
+  .menu__button-container{
+    margin-top: 5rem;
   }
 </style>
