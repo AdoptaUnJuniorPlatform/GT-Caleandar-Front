@@ -1,11 +1,15 @@
 ---
 import CardTask from '../components/forms/CardTask.astro';
 import Layout from '../layouts/Layout.astro';
+
+export const prerender = false;
+
+return Astro.redirect('/login');
 ---
 
 <Layout title="CaLEANdar">
 	<main>
-		<h1>Lean Mind</h1>
+		<!-- <h1>Lean Mind</h1> -->
 	</main>
 </Layout>
 
