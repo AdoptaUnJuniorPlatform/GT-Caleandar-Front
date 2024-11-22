@@ -10,7 +10,7 @@
   justify-content: space-evenly;
 }
 .reminder-top-header {
-  margin-top: .5rem;
+  margin-top: 1.5rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -32,11 +32,12 @@
   color: var(--color-text-muted);
 }
 .reminder-bottom-header {
-  margin-top: 1rem;
+  margin-top: 2rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1.25rem;
 }
 .reminder-bottom-header-left {
   display: flex;
@@ -89,7 +90,6 @@
 .reminder-bottom-header-right button:hover{
   background-color: rgb(207, 207, 207);
 }
-
 .reminder-body__section {
   margin-top: 1rem;
   display: flex;

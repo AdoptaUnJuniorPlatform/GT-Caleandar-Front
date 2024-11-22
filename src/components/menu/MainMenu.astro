@@ -1,6 +1,10 @@
 ---
 import NewReminderButton, { Width } from "../shared/NewReminderButton.astro";
 import Calendar from "./Calendar.astro";
+
+import data from "../../static/js/dataTarea.json";
+
+const tarea = data.tareas
 ---
 
 <div class="menu__container">
@@ -9,7 +13,19 @@ import Calendar from "./Calendar.astro";
     <div class="menu__list">
       <span class="menu__text">Mi Área Personal</span>
       <hr class="menu__divider" />
-      <a href="/reminders" class="nav-link menu__item" data-page="/reminders"><div class="home__icon-space"><img src="/icons/bell.svg" alt="bell-icon">  Mis Recordatorios</div>  <span class="item__count">0</span></a>
+      <a href="/reminders" class="nav-link menu__item" data-page="/reminders">
+        <div class="home__icon-space">
+          <img src="/icons/bell.svg" alt="bell-icon">
+          Mis Recordatorios
+        </div>  
+        <span class="item__count">{tarea.length}</span>
+      </a>
+      <a href="/calendar" class="nav-link menu__item" data-page="/calendar">
+        <div class="home__icon-space">
+          <img src="/icons/calendar.svg" alt="calendar-icon">
+          Calendario
+        </div>
+      </a>
     </div>
   </div>
   <div class="menu__button-container">
@@ -27,6 +43,7 @@ import Calendar from "./Calendar.astro";
     flex: auto;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     background: var(--color-white-alt);
   }
   .full-menu{
@@ -74,7 +91,7 @@ import Calendar from "./Calendar.astro";
     gap: 11px;
     align-items: center;
   }
-  .menu__button-container{
-    margin-top: 5rem;
-  }
+  /* .menu__button-container{
+    margin-top: 0;
+  } */
 </style>
