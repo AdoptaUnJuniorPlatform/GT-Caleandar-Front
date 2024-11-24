@@ -1,6 +1,6 @@
 {
-  "tareas": [
-          {
+    "tareas": [
+        {
             "titulo": "Reunión de equipo",
             "descripcion": "probando card pablo",
             "email_responsables": [
@@ -91,17 +91,55 @@
             "periodicidad": "Diaria"
         },
         {
-          "titulo": "Cambiar equipo de plataforma visual",
-          "descripcion": "hola soy una descripcion",
-          "email_responsables": [
-              "ashgard2@gmail.com"
-          ],
-          "estado": "archivada",
-          "fecha_fin": "2024-11-20",
-          "fecha_tarea": "2024-11-20",
-          "hora": "20:38",
-          "fecha_recordatorio": "",
-          "periodicidad": "Diaria"
-      }
+            "titulo": "Cambiar equipo de plataforma visual",
+            "descripcion": "hola soy una descripcion",
+            "email_responsables": [
+                "ashgard2@gmail.com"
+            ],
+            "estado": "archivada",
+            "fecha_fin": "2024-11-20",
+            "fecha_tarea": "2024-11-20",
+            "hora": "20:38",
+            "fecha_recordatorio": "",
+            "periodicidad": "Diaria"
+        },
+        {
+            "titulo": "Cambio de equipos tecnológicos",
+            "email_responsables": [
+                "ashgard2@gmail.com"
+            ],
+            "estado": "pendiente",
+            "fecha_fin": "2024-11-19",
+            "fecha_tarea": "2024-11-19",
+            "hora": "01:53",
+            "fecha_recordatorio": "",
+            "periodicidad": "No repetitiva"
+        },
+        {
+            "titulo": "Recoger documentos",
+            "descripcion": "sdsdsd",
+            "email_responsables": [
+                "ashgard2@gmail.com"
+            ],
+            "estado": "pendiente",
+            "fecha_fin": "2024-11-20",
+            "fecha_tarea": "2024-11-19",
+            "hora": "20:38",
+            "fecha_recordatorio": "",
+            "periodicidad": "Diaria"
+        },
+        {
+            "titulo": "Calificar los proyectos del mes",
+            "descripcion": "hola soy una descripcion",
+            "email_responsables": [
+                "ashgard2@gmail.com"
+            ],
+            "estado": "pendiente",
+            "fecha_fin": "2024-11-20",
+            "fecha_tarea": "2024-11-20",
+            "hora": "20:38",
+            "fecha_recordatorio": "",
+            "periodicidad": "Diaria"
+        }
     ]
 }

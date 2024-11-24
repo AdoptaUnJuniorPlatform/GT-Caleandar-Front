@@ -4,7 +4,7 @@ const listItems = paginatedList.querySelectorAll("li");
 const nextButton = document.getElementById("next-pagination");
 const prevButton = document.getElementById("prev-pagination");
 
-const paginationLimit = 4;
+const paginationLimit = 9;
 const pageCount = Math.ceil(listItems.length / paginationLimit);
 let currentPage = 1;
 
@@ -97,3 +97,5 @@ window.addEventListener("load", () => {
     }
   });
 });
+
+export { setCurrentPage, getPaginationNumbers };

@@ -7,8 +7,12 @@ import SmallReminderView from "../components/reminders/SmallReminderView.astro";
 import BigReminderView from "../components/reminders/BigReminderView.astro";
 import data from "../static/js/dataTarea.json";
 
-const tarea = data.tareas
+const tareas = data.tareas;
+
 ---
+<head>
+  <link rel="stylesheet" href="/src/styles/smallreminder.css" />  
+</head>
 
 <HomeLayout title="Reminders - LeanMind">
   <div class="reminder__container">
@@ -24,16 +28,16 @@ const tarea = data.tareas
         <div class="reminder-bottom-header-left">
           <img src="./icons/eye.svg" alt="eye-icon">
           <span>Vista</span>
-          <button id="all-tasks">
+          <button class="filter-button" data-filter="todas">
             <img src="./icons/boxes.svg" alt="boxes-icon">Todas
           </button>
-          <button id="active-tasks">
+          <button class="filter-button" data-filter="pendiente">
             <img src="./icons/boxes.svg" alt="boxes-icon">Pendientes
           </button>
-          <button id="complete-tasks">
+          <button class="filter-button" data-filter="completada">
             <img src="./icons/boxes.svg" alt="boxes-icon">Completadas
           </button>
-          <button id="archive-tasks">
+          <button class="filter-button" data-filter="archivada">
             <img src="./icons/boxes.svg" alt="boxes-icon">Archivadas
           </button>
         </div>
@@ -68,21 +72,17 @@ const tarea = data.tareas
           <ul id="paginated-list" data-current-page="1" aria-live="polite">
             <!-- <BigReminderView /> -->
             <ConfirmationPopup />
-            <div class="parent">
-            {
-                tarea.map((tarea) => {
-                  return (
-                    <li>
-                      <SmallReminderView
-                          taskName={tarea.titulo}
-                          status={tarea.estado}
-                          numberParticipants={tarea.email_responsables.length}
-                          hourTask={tarea.hora}
-                        />
-                    </li>
-                  )
-                })
-              }
+            <div id="tareas-container" class="parent">
+              <!-- {tareas.map(tarea => (
+                <li data-estado={tarea.estado}>
+                  <SmallReminderView
+                    taskName={tarea.titulo}
+                    status={tarea.estado}
+                    numberParticipants={tarea.email_responsables.length}
+                    hourTask={tarea.hora}
+                  />
+                </li>
+              ))} -->
             </div>
           </ul>
          
@@ -114,9 +114,9 @@ const tarea = data.tareas
 <script type="module" is:inline src="/src/utils/paginationScript.js"></script>
 <script type="module" is:inline src="/src/utils/filterTasks.js"></script>
 
-<script>
-  
-  import { currentDateState, currentMonthState } from '../stores/store'
+<script>  
+
+import { currentDateState, currentMonthState } from '../stores/store'
 
   const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
@@ -139,6 +139,7 @@ const tarea = data.tareas
     currentYear.textContent = currentDateState.get().getFullYear().toString();
     currentMonth.textContent = monthNames[currentMonthState.get()]
   })
+
 </script>
 
 <style>
