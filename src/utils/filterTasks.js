@@ -2,19 +2,14 @@
 import data from "../static/js/dataTarea.json";
 import { updatePagination } from "./paginationScript";
 
-
 document.addEventListener('DOMContentLoaded', () => {
   const filterButtons = document.querySelectorAll('.filter-button');
   const tareasContainer = document.getElementById("tareas-container");
   const results = data.tareas;
 
-
-
   // Función para actualizar el DOM con las tareas
   function actualizarDOM(tasks) {
     tareasContainer.innerHTML = ''; // Limpiar el contenedor
-
-
     tasks.forEach(tarea => {
       const taskElement = document.createElement('li');
 
@@ -42,31 +37,23 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         </div>
       `;
-
       tareasContainer.appendChild(taskElement);
     });
 
     // Cargar y ejecutar el script después de que el componente se haya renderizado
     import("/src/utils/validationViewReminder.js").then(() => {
-      console.log("Script cargado y ejecutado.");
-    }).catch(err => console.error("Error al cargar el script:", err));
+        }).catch(err => console.error("Error al cargar el script:", err));
     updatePagination();
-
   }
-
 
   // Función para filtrar las tareas
   function filtrarTareas(filter) {
     let filteredTasks
-
     if (filter === 'todas') {
       filteredTasks = results; // Mostrar todas las tareas
-      console.log("filtrando todas las tareas", filteredTasks);
     } else {
       filteredTasks = results.filter(tarea => tarea.estado === filter); // Filtrar por estado
-      console.log("filtradas las tareas", filteredTasks);
     }
-
     actualizarDOM(filteredTasks);
   }
 
@@ -74,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function actualizarClaseActiva(activeButton) {
     // Eliminar la clase activa de todos los botones
     filterButtons.forEach(button => button.classList.remove('active'));
-
     // Añadir la clase activa al botón clicado
     activeButton.classList.add('active');
   }
@@ -90,6 +76,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Mostrar todas las tareas al cargar la página
   filtrarTareas('todas');
-
 });
 

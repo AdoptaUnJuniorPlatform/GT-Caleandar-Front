@@ -14,7 +14,6 @@ const handleCloseModal = () => {
 };
 
 const handleOpenBigReminder = () => {
-  console.log("si abre el big view")
   submitForm.classList.remove('hidden')
   bigReminder.set(true);
 }

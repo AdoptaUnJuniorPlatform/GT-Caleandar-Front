@@ -79,8 +79,6 @@ import BigCalendar from "../components/reminders/BigCalendar.astro";
   })
 
   currentMonthState.subscribe(()=>{
-    console.log(currentMonthState.get())
-    console.log(monthNames[currentMonthState.get()])
     currentYear.textContent = currentDateState.get().getFullYear().toString();
     currentMonth.textContent = monthNames[currentMonthState.get()]
   })
