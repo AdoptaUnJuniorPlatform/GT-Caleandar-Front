@@ -1,5 +1,6 @@
 
 import data from "../static/js/dataTarea.json";
+import { updatePagination } from "./paginationScript";
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -12,11 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Función para actualizar el DOM con las tareas
   function actualizarDOM(tasks) {
     tareasContainer.innerHTML = ''; // Limpiar el contenedor
-   
-    
+
+
     tasks.forEach(tarea => {
       const taskElement = document.createElement('li');
-  
+
       taskElement.innerHTML = `
         <div class="small-reminder">
           <div class="content-reminder">
@@ -38,33 +39,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="number-participants">${tarea.email_responsables.length}</div>
               </div>
             </div>
-            <div class="delete-reminder">
-              <button class="text-archivar" id="btn-archivar">
-                Archivar
-              </button>
-              <button class="text-editar" id="btn-editar">
-                Editar
-              </button>
-            </div>
           </div>
         </div>
       `;
-      
+
       tareasContainer.appendChild(taskElement);
     });
-
 
     // Cargar y ejecutar el script después de que el componente se haya renderizado
     import("/src/utils/validationViewReminder.js").then(() => {
       console.log("Script cargado y ejecutado.");
-  }).catch(err => console.error("Error al cargar el script:", err));
+    }).catch(err => console.error("Error al cargar el script:", err));
+    updatePagination();
 
   }
-  
+
 
   // Función para filtrar las tareas
   function filtrarTareas(filter) {
-    let filteredTasks;
+    let filteredTasks
 
     if (filter === 'todas') {
       filteredTasks = results; // Mostrar todas las tareas
@@ -77,10 +70,20 @@ document.addEventListener('DOMContentLoaded', () => {
     actualizarDOM(filteredTasks);
   }
 
+  // Función para manejar la clase activa en los botones
+  function actualizarClaseActiva(activeButton) {
+    // Eliminar la clase activa de todos los botones
+    filterButtons.forEach(button => button.classList.remove('active'));
+
+    // Añadir la clase activa al botón clicado
+    activeButton.classList.add('active');
+  }
+
   // Establecer los eventos en los botones de filtro
   filterButtons.forEach(button => {
     button.addEventListener('click', () => {
       const filter = button.getAttribute('data-filter'); // Obtener el filtro seleccionado
+      actualizarClaseActiva(button); // Actualizar la clase activa en el botón
       filtrarTareas(filter); // Filtrar tareas según el botón clicado
     });
   });
@@ -89,3 +92,4 @@ document.addEventListener('DOMContentLoaded', () => {
   filtrarTareas('todas');
 
 });
+

@@ -56,10 +56,24 @@ const getPaginationNumbers = () => {
   for (let i = 1; i <= pageCount; i++) {
     appendPageNumber(i);
   }
+  
+  document.querySelectorAll(".pagination-number").forEach((button) => {
+    const pageIndex = Number(button.getAttribute("page-index"));
+
+    if (pageIndex) {
+      button.addEventListener("click", () => {
+        setCurrentPage(pageIndex);
+      });
+    }
+  });
+
 };
 
 const setCurrentPage = (pageNum) => {
   currentPage = pageNum;
+
+
+  paginatedList.setAttribute("data-current-page", pageNum); // Actualizar el atributo
 
   handleActivePageNumber();
   handlePageButtonsStatus();
@@ -75,6 +89,18 @@ const setCurrentPage = (pageNum) => {
   });
 };
 
+const updatePagination = () => {
+  const paginatedList = document.getElementById("tareas-container"); // Asegúrate de que siempre se obtiene el contenedor actualizado
+  const listItems = paginatedList.querySelectorAll("li"); // Recalcula los elementos de la lista
+  const paginationNumbers = document.getElementById("pagination-numbers");
+  
+  const pageCount = Math.ceil(listItems.length / paginationLimit); // Recalcula el total de páginas
+  paginationNumbers.innerHTML = ""; // Limpia los números de paginación previos
+  getPaginationNumbers(); // Redibuja los botones de paginación
+  setCurrentPage(1); // Vuelve a la página 1
+};
+
+
 window.addEventListener("load", () => {
   getPaginationNumbers();
   setCurrentPage(1);
@@ -87,15 +113,7 @@ window.addEventListener("load", () => {
     setCurrentPage(currentPage + 1);
   });
 
-  document.querySelectorAll(".pagination-number").forEach((button) => {
-    const pageIndex = Number(button.getAttribute("page-index"));
-
-    if (pageIndex) {
-      button.addEventListener("click", () => {
-        setCurrentPage(pageIndex);
-      });
-    }
-  });
+  
 });
 
-export { setCurrentPage, getPaginationNumbers };
+export { setCurrentPage, getPaginationNumbers, updatePagination };

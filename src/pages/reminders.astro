@@ -10,10 +10,6 @@ import data from "../static/js/dataTarea.json";
 const tareas = data.tareas;
 
 ---
-<head>
-  <link rel="stylesheet" href="/src/styles/smallreminder.css" />  
-</head>
-
 <HomeLayout title="Reminders - LeanMind">
   <div class="reminder__container">
     <section class="reminder-header__section">
@@ -26,19 +22,19 @@ const tareas = data.tareas;
       </div>
       <div class="reminder-bottom-header">
         <div class="reminder-bottom-header-left">
-          <img src="./icons/eye.svg" alt="eye-icon">
-          <span>Vista</span>
-          <button class="filter-button" data-filter="todas">
-            <img src="./icons/boxes.svg" alt="boxes-icon">Todas
+          <!-- <img src="./icons/eye.svg" alt="eye-icon">
+          <span>Vista</span> -->
+          <button class="filter-button active" data-filter="todas">
+            <img src="./icons/eye.svg" class="icon" alt="boxes-icon">Todo
           </button>
           <button class="filter-button" data-filter="pendiente">
-            <img src="./icons/boxes.svg" alt="boxes-icon">Pendientes
+            <img src="./icons/icon-clock.svg" class="icon" alt="boxes-icon">Pendiente
           </button>
           <button class="filter-button" data-filter="completada">
-            <img src="./icons/boxes.svg" alt="boxes-icon">Completadas
+            <img src="./icons/checklist.svg" class="icon" alt="boxes-icon">Completado
           </button>
           <button class="filter-button" data-filter="archivada">
-            <img src="./icons/boxes.svg" alt="boxes-icon">Archivadas
+            <img src="./icons/icon-archive.svg" class="icon" alt="boxes-icon">Archivado
           </button>
         </div>
       </div>
@@ -73,7 +69,7 @@ const tareas = data.tareas;
             <!-- <BigReminderView /> -->
             <ConfirmationPopup />
             <div id="tareas-container" class="parent">
-              <!-- {tareas.map(tarea => (
+              {tareas.map(tarea => (
                 <li data-estado={tarea.estado}>
                   <SmallReminderView
                     taskName={tarea.titulo}
@@ -82,7 +78,7 @@ const tareas = data.tareas;
                     hourTask={tarea.hora}
                   />
                 </li>
-              ))} -->
+              ))}
             </div>
           </ul>
          
