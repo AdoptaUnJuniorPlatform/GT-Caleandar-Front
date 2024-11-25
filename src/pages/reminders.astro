@@ -2,9 +2,14 @@
 import HomeLayout from "../layouts/HomeLayout.astro";
 import NewReminderButton, { Width } from "../components/shared/NewReminderButton.astro";
 import BigCalendar from "../components/reminders/BigCalendar.astro";
+import ConfirmationPopup from "../components/reminders/ConfirmationPopup.astro";
+import SmallReminderView from "../components/reminders/SmallReminderView.astro";
+import BigReminderView from "../components/reminders/BigReminderView.astro";
+import data from "../static/js/dataTarea.json";
+
+const tareas = data.tareas;
 
 ---
-
 <HomeLayout title="Reminders - LeanMind">
   <div class="reminder__container">
     <section class="reminder-header__section">
@@ -17,24 +22,27 @@ import BigCalendar from "../components/reminders/BigCalendar.astro";
       </div>
       <div class="reminder-bottom-header">
         <div class="reminder-bottom-header-left">
-          <img src="./icons/eye.svg" alt="eye-icon">
-          <span>Vista</span>
-          <button><img src="./icons/dashboard.svg" alt="dashboard-icon">Tablero</button>
-          <button><img src="./icons/list.svg" alt="list-icon">Lista</button>
-          <button><img src="./icons/boxes.svg" alt="boxes-icon">Tabla</button>
-        </div>
-        <div class="reminder-bottom-header-right">
-          <button>Diaria</button>
-          <button>Semanal</button>
-          <button>Mensual</button>
-          <button>Anual</button>
+          <!-- <img src="./icons/eye.svg" alt="eye-icon">
+          <span>Vista</span> -->
+          <button class="filter-button active" data-filter="todas">
+            <img src="./icons/eye.svg" class="icon" alt="boxes-icon">Todo
+          </button>
+          <button class="filter-button" data-filter="pendiente">
+            <img src="./icons/icon-clock.svg" class="icon" alt="boxes-icon">Pendiente
+          </button>
+          <button class="filter-button" data-filter="completada">
+            <img src="./icons/checklist.svg" class="icon" alt="boxes-icon">Completado
+          </button>
+          <button class="filter-button" data-filter="archivada">
+            <img src="./icons/icon-archive.svg" class="icon" alt="boxes-icon">Archivado
+          </button>
         </div>
       </div>
     </section>
 
     <section class="reminder-body__section">
       <div class="reminder-body-header">
-        <span class="reminder-body-header-title">Mensualmente</span>
+        <!-- <span class="reminder-body-header-title">Mensualmente</span> -->
         <div class="reminder-body-controls">
           <div class="arrow-buttons">
             <button id="prev-button"><img src="./icons/arrow-left.svg" alt="arrow-left-icon"></button>
@@ -54,15 +62,57 @@ import BigCalendar from "../components/reminders/BigCalendar.astro";
         </div>
       </div>
       <div class="reminder-body">
-        <BigCalendar />
+        <!-- <BigCalendar /> -->
+        
+        <div class="paginate-items">
+          <ul id="paginated-list" data-current-page="1" aria-live="polite">
+            <!-- <BigReminderView /> -->
+            <ConfirmationPopup />
+            <div id="tareas-container" class="parent">
+              {tareas.map(tarea => (
+                <li data-estado={tarea.estado}>
+                  <SmallReminderView
+                    taskName={tarea.titulo}
+                    status={tarea.estado}
+                    numberParticipants={tarea.email_responsables.length}
+                    hourTask={tarea.hora}
+                  />
+                </li>
+              ))}
+            </div>
+          </ul>
+         
+        </div>
+       <nav class="pagination-container">
+          <button 
+            class="pagination-button" 
+            id="prev-pagination" 
+            aria-label="Previous page" 
+            title="Previous page"
+          >&lt;
+          </button>
+          <div id="pagination-numbers" class="paginate-number"></div>
+        
+          <button 
+            class="pagination-button" 
+            id="next-pagination" 
+            aria-label="Next page" 
+            title="Next page"
+          >&gt;
+          </button>
+        </nav>
+
       </div>
     </section>
   </div>
 </HomeLayout>
 
-<script>
-  
-  import { currentDateState, currentMonthState } from '../stores/store'
+<script type="module" is:inline src="/src/utils/paginationScript.js"></script>
+<script type="module" is:inline src="/src/utils/filterTasks.js"></script>
+
+<script>  
+
+import { currentDateState, currentMonthState } from '../stores/store'
 
   const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
@@ -85,4 +135,67 @@ import BigCalendar from "../components/reminders/BigCalendar.astro";
     currentYear.textContent = currentDateState.get().getFullYear().toString();
     currentMonth.textContent = monthNames[currentMonthState.get()]
   })
+
 </script>
+
+<style>
+  .paginate-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+  .parent {
+    display: grid;
+    grid-template-columns:
+    repeat(3, 1fr);
+    grid-template-rows:
+    repeat(3, 1fr);
+    gap: 30px;
+  }
+  .hidden {
+    display: none;
+  }
+  .pagination-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  .pagination-number,
+  .pagination-button{
+    font-size: 20px;
+    background-color: #eaf1f2;
+    /* background-color: transparent; */
+    border: none;
+    margin: 0.25rem 0.25rem;
+    cursor: pointer;
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: .2rem;
+    color: #1D5A61;
+  }
+  .pagination-number:hover,
+  .pagination-button:not(.disabled):hover {
+    background: #fff;
+  }
+  .pagination-number.active {
+    color: #423d3d;
+  }
+  ul {
+    list-style-type: none;
+  }
+  .paginate-number {
+    margin-left: 15px ;
+    margin-right: 15px;
+    width: 50%;
+    height: 40px;
+  }
+  #pagination-numbers {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+    gap: 5px;
+  }
+</style>

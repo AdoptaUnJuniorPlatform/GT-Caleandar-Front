@@ -1,17 +1,27 @@
 import { openReminderForm } from "../stores/store";
 import { resetFrequencyForm } from "./frecuencySelect";
+import { bigReminder } from "../stores/store";
 
 const modal = document.querySelector(".modal");
 const cancelModal = document.getElementById('cancelBtn');
 const closeModal = document.getElementById('closeBtn');
 const reminderButtons = document.querySelectorAll('.new-reminder');
+const submitForm = document.getElementById('submit-btn');
+
 const handleCloseModal = () => {
     openReminderForm.set(false);
     resetFrequencyForm();
 };
 
+const handleOpenBigReminder = () => {
+  console.log("si abre el big view")
+  submitForm.classList.remove('hidden')
+  bigReminder.set(true);
+}
+
 cancelModal.addEventListener('click', handleCloseModal);
 closeModal.addEventListener('click', handleCloseModal);
+submitForm.addEventListener('click', handleOpenBigReminder);
 
 reminderButtons.forEach((button) => {
     button.addEventListener('click', () => {
