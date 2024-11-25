@@ -61,16 +61,23 @@ const tareas = data.tareas;
           <ul id="paginated-list" data-current-page="1" aria-live="polite">
             <!-- <BigReminderView /> -->
             <div id="tareas-container" class="parent">
-              {tareas.map(tarea => (
-                <li data-estado={tarea.estado}>
-                  <SmallReminderView
-                    taskName={tarea.titulo}
-                    status={tarea.estado}
-                    numberParticipants={tarea.email_responsables.length}
-                    hourTask={tarea.hora}
-                  />
-                </li>
-              ))}
+              {
+                tareas.length > 0 ? 
+                  (tareas.map((tarea) => (
+                   (
+                    <li data-estado={tarea.estado}>
+                      <SmallReminderView
+                        key={tarea.id}
+                        taskName={tarea.titulo}
+                        status={tarea.estado}
+                        numberParticipants={tarea.email_responsables?.length || 0}
+                        hourTask={tarea.hora}
+                      />
+                    </li>
+                  )))
+                ) : 
+                (alert("No tienes tareas para mostrar"))
+              }
             </div>
           </ul>
          
@@ -79,6 +86,109 @@ const tareas = data.tareas;
     </section>
   </div>
 </HomeLayout>
+
+<script type="module" is:client>
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js';
+  import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js';
+
+ const firebaseConfig = {
+    apiKey: import.meta.env.PUBLIC_API_KEY,
+    authDomain: import.meta.env.PUBLIC_AUTH_DOMAIN,
+    databaseURL: import.meta.env.PUBLIC_DATABASE_URL,
+    projectId: import.meta.env.PUBLIC_PROJECT_ID,
+    storageBucket: import.meta.env.PUBLIC_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.PUBLIC_MESSAGING_SENDER_ID,
+    appId: import.meta.env.PUBLIC_APP_ID,
+    measurementId: import.meta.env.PUBLIC_MEASUREMENT_ID
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  let tareasValue = [];
+  let currentPage = 1;
+  const tasksPerPage = 6;
+
+  const fetchTareas = async (userId, page) => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:5001/caleandar-leanmind/us-central1/getTasksByUserId?userId=${userId}`,
+        {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+
+      if (!response.ok) throw new Error(`Error: ${response.status}`);
+
+      const data = await response.json();
+      console.log('Tareas obtenidas del backend:', data);
+
+      tareasValue = data.tasks || [];
+
+      const startIndex = (page - 1) * tasksPerPage;
+      const paginatedTasks = tareasValue.slice(startIndex, startIndex + tasksPerPage);
+
+      // Llama a Astro para actualizar el estado de las tareas
+      const tareasContainer = document.querySelector('.parent');
+      tareasContainer.innerHTML = ''; // Limpiar contenedor
+
+      if (paginatedTasks.length > 0) {
+        paginatedTasks.forEach((tarea) => {
+          const reminder = document.createElement('div');
+          reminder.innerHTML = `
+            <div>
+              <h3>${tarea.titulo}</h3>
+              <p>Estado: ${tarea.estado}</p>
+              <p>Participantes: ${tarea.email_responsables?.length || 0}</p>
+              <p>Hora: ${tarea.hora}</p>
+            </div>
+          `;
+          tareasContainer.appendChild(reminder);
+        });
+      } else {
+        tareasContainer.innerHTML = '<p>No tienes tareas por mostrar.</p>';
+      }
+
+      // Habilitar/Deshabilitar botones de paginación
+      document.getElementById('prevBtn').disabled = currentPage === 1;
+      document.getElementById('nextBtn').disabled = currentPage * tasksPerPage >= tareasValue.length;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Lógica de paginación
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage--;
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          fetchTareas(user.uid, currentPage);
+        }
+      });
+    }
+  });
+
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    currentPage++;
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        fetchTareas(user.uid, currentPage);
+      }
+    });
+  });
+
+  // Observador de autenticación
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log('Usuario autenticado:', user.uid);
+      fetchTareas(user.uid, currentPage);
+    } else {
+      console.error('Usuario no autenticado');
+      window.location.href = '/login';
+    }
+  });
+</script>
 
 <script type="module" is:inline src="/src/utils/paginationScript.js"></script>
 <script type="module" is:inline src="/src/utils/filterTasks.js"></script>

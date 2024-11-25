@@ -9,31 +9,15 @@ import BigCalendar from "../components/reminders/BigCalendar.astro";
     <section class="reminder-header__section">
       <div class="reminder-top-header">
         <div class="reminder-text__container">
-          <h1>Mi Calendario</h1>
-          <span>Que no se te pase ninguna tarea</span>
+          <h1>Calendario</h1>
+          <span>Aquí puedes ver todos tus recordatorios del mes</span>
         </div>
         <NewReminderButton width={Width.SMALL} bold={false} dark={false} height={36} />
-      </div>
-      <div class="reminder-bottom-header">
-        <div class="reminder-bottom-header-left">
-          <img src="./icons/eye.svg" alt="eye-icon">
-          <span>Vista</span>
-          <button><img src="./icons/dashboard.svg" alt="dashboard-icon">Tablero</button>
-          <button><img src="./icons/list.svg" alt="list-icon">Lista</button>
-          <button><img src="./icons/boxes.svg" alt="boxes-icon">Tabla</button>
-          
-        </div>
-        <div class="reminder-bottom-header-right">
-          <button>Diaria</button>
-          <button>Semanal</button>
-          <button>Mensual</button>
-        </div>
       </div>
     </section>
 
     <section class="reminder-body__section">
       <div class="reminder-body-header">
-        <span class="reminder-body-header-title">Mensualmente</span>
         <div class="reminder-body-controls">
           <div class="arrow-buttons">
             <button id="prev-button"><img src="./icons/arrow-left.svg" alt="arrow-left-icon"></button>
