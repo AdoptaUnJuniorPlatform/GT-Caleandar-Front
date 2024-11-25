@@ -1,10 +1,8 @@
 ---
 import HomeLayout from "../layouts/HomeLayout.astro";
 import NewReminderButton, { Width } from "../components/shared/NewReminderButton.astro";
-import BigCalendar from "../components/reminders/BigCalendar.astro";
-import ConfirmationPopup from "../components/reminders/ConfirmationPopup.astro";
 import SmallReminderView from "../components/reminders/SmallReminderView.astro";
-import BigReminderView from "../components/reminders/BigReminderView.astro";
+// import BigReminderView from "../components/reminders/BigReminderView.astro";
 import data from "../static/js/dataTarea.json";
 
 const tareas = data.tareas;
@@ -22,8 +20,6 @@ const tareas = data.tareas;
       </div>
       <div class="reminder-bottom-header">
         <div class="reminder-bottom-header-left">
-          <!-- <img src="./icons/eye.svg" alt="eye-icon">
-          <span>Vista</span> -->
           <button class="filter-button active" data-filter="todas">
             <img src="./icons/eye.svg" class="icon" alt="boxes-icon">Todo
           </button>
@@ -42,7 +38,6 @@ const tareas = data.tareas;
 
     <section class="reminder-body__section">
       <div class="reminder-body-header">
-        <!-- <span class="reminder-body-header-title">Mensualmente</span> -->
         <div class="reminder-body-controls">
           <div class="arrow-buttons">
             <button id="prev-button"><img src="./icons/arrow-left.svg" alt="arrow-left-icon"></button>
@@ -62,50 +57,138 @@ const tareas = data.tareas;
         </div>
       </div>
       <div class="reminder-body">
-        <!-- <BigCalendar /> -->
-        
         <div class="paginate-items">
           <ul id="paginated-list" data-current-page="1" aria-live="polite">
             <!-- <BigReminderView /> -->
-            <ConfirmationPopup />
             <div id="tareas-container" class="parent">
-              {tareas.map(tarea => (
-                <li data-estado={tarea.estado}>
-                  <SmallReminderView
-                    taskName={tarea.titulo}
-                    status={tarea.estado}
-                    numberParticipants={tarea.email_responsables.length}
-                    hourTask={tarea.hora}
-                  />
-                </li>
-              ))}
+              {
+                tareas.length > 0 ? 
+                  (tareas.map((tarea) => (
+                   (
+                    <li data-estado={tarea.estado}>
+                      <SmallReminderView
+                        key={tarea.id}
+                        taskName={tarea.titulo}
+                        status={tarea.estado}
+                        numberParticipants={tarea.email_responsables?.length || 0}
+                        hourTask={tarea.hora}
+                      />
+                    </li>
+                  )))
+                ) : 
+                (alert("No tienes tareas para mostrar"))
+              }
             </div>
           </ul>
          
         </div>
-       <nav class="pagination-container">
-          <button 
-            class="pagination-button" 
-            id="prev-pagination" 
-            aria-label="Previous page" 
-            title="Previous page"
-          >&lt;
-          </button>
-          <div id="pagination-numbers" class="paginate-number"></div>
-        
-          <button 
-            class="pagination-button" 
-            id="next-pagination" 
-            aria-label="Next page" 
-            title="Next page"
-          >&gt;
-          </button>
-        </nav>
-
       </div>
     </section>
   </div>
 </HomeLayout>
+
+<script type="module" is:client>
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js';
+  import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js';
+
+ const firebaseConfig = {
+    apiKey: import.meta.env.PUBLIC_API_KEY,
+    authDomain: import.meta.env.PUBLIC_AUTH_DOMAIN,
+    databaseURL: import.meta.env.PUBLIC_DATABASE_URL,
+    projectId: import.meta.env.PUBLIC_PROJECT_ID,
+    storageBucket: import.meta.env.PUBLIC_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.PUBLIC_MESSAGING_SENDER_ID,
+    appId: import.meta.env.PUBLIC_APP_ID,
+    measurementId: import.meta.env.PUBLIC_MEASUREMENT_ID
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  let tareasValue = [];
+  let currentPage = 1;
+  const tasksPerPage = 6;
+
+  const fetchTareas = async (userId, page) => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:5001/caleandar-leanmind/us-central1/getTasksByUserId?userId=${userId}`,
+        {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+
+      if (!response.ok) throw new Error(`Error: ${response.status}`);
+
+      const data = await response.json();
+      console.log('Tareas obtenidas del backend:', data);
+
+      tareasValue = data.tasks || [];
+
+      const startIndex = (page - 1) * tasksPerPage;
+      const paginatedTasks = tareasValue.slice(startIndex, startIndex + tasksPerPage);
+
+      // Llama a Astro para actualizar el estado de las tareas
+      const tareasContainer = document.querySelector('.parent');
+      tareasContainer.innerHTML = ''; // Limpiar contenedor
+
+      if (paginatedTasks.length > 0) {
+        paginatedTasks.forEach((tarea) => {
+          const reminder = document.createElement('div');
+          reminder.innerHTML = `
+            <div>
+              <h3>${tarea.titulo}</h3>
+              <p>Estado: ${tarea.estado}</p>
+              <p>Participantes: ${tarea.email_responsables?.length || 0}</p>
+              <p>Hora: ${tarea.hora}</p>
+            </div>
+          `;
+          tareasContainer.appendChild(reminder);
+        });
+      } else {
+        tareasContainer.innerHTML = '<p>No tienes tareas por mostrar.</p>';
+      }
+
+      // Habilitar/Deshabilitar botones de paginación
+      document.getElementById('prevBtn').disabled = currentPage === 1;
+      document.getElementById('nextBtn').disabled = currentPage * tasksPerPage >= tareasValue.length;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Lógica de paginación
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage--;
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          fetchTareas(user.uid, currentPage);
+        }
+      });
+    }
+  });
+
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    currentPage++;
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        fetchTareas(user.uid, currentPage);
+      }
+    });
+  });
+
+  // Observador de autenticación
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log('Usuario autenticado:', user.uid);
+      fetchTareas(user.uid, currentPage);
+    } else {
+      console.error('Usuario no autenticado');
+      window.location.href = '/login';
+    }
+  });
+</script>
 
 <script type="module" is:inline src="/src/utils/paginationScript.js"></script>
 <script type="module" is:inline src="/src/utils/filterTasks.js"></script>
@@ -130,8 +213,6 @@ import { currentDateState, currentMonthState } from '../stores/store'
   })
 
   currentMonthState.subscribe(()=>{
-    console.log(currentMonthState.get())
-    console.log(monthNames[currentMonthState.get()])
     currentYear.textContent = currentDateState.get().getFullYear().toString();
     currentMonth.textContent = monthNames[currentMonthState.get()]
   })
@@ -157,45 +238,8 @@ import { currentDateState, currentMonthState } from '../stores/store'
   .hidden {
     display: none;
   }
-  .pagination-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 30px;
-  }
-  .pagination-number,
-  .pagination-button{
-    font-size: 20px;
-    background-color: #eaf1f2;
-    /* background-color: transparent; */
-    border: none;
-    margin: 0.25rem 0.25rem;
-    cursor: pointer;
-    height: 2.5rem;
-    width: 2.5rem;
-    border-radius: .2rem;
-    color: #1D5A61;
-  }
-  .pagination-number:hover,
-  .pagination-button:not(.disabled):hover {
-    background: #fff;
-  }
-  .pagination-number.active {
-    color: #423d3d;
-  }
   ul {
     list-style-type: none;
   }
-  .paginate-number {
-    margin-left: 15px ;
-    margin-right: 15px;
-    width: 50%;
-    height: 40px;
-  }
-  #pagination-numbers {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
-    gap: 5px;
-  }
+ 
 </style>

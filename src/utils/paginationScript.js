@@ -4,7 +4,7 @@ const listItems = paginatedList.querySelectorAll("li");
 const nextButton = document.getElementById("next-pagination");
 const prevButton = document.getElementById("prev-pagination");
 
-const paginationLimit = 9;
+const paginationLimit = 7;
 const pageCount = Math.ceil(listItems.length / paginationLimit);
 let currentPage = 1;
 
@@ -56,7 +56,6 @@ const getPaginationNumbers = () => {
   for (let i = 1; i <= pageCount; i++) {
     appendPageNumber(i);
   }
-  
   document.querySelectorAll(".pagination-number").forEach((button) => {
     const pageIndex = Number(button.getAttribute("page-index"));
 
@@ -66,15 +65,11 @@ const getPaginationNumbers = () => {
       });
     }
   });
-
 };
 
 const setCurrentPage = (pageNum) => {
   currentPage = pageNum;
-
-
   paginatedList.setAttribute("data-current-page", pageNum); // Actualizar el atributo
-
   handleActivePageNumber();
   handlePageButtonsStatus();
   
@@ -100,7 +95,6 @@ const updatePagination = () => {
   setCurrentPage(1); // Vuelve a la página 1
 };
 
-
 window.addEventListener("load", () => {
   getPaginationNumbers();
   setCurrentPage(1);
@@ -112,8 +106,6 @@ window.addEventListener("load", () => {
   nextButton.addEventListener("click", () => {
     setCurrentPage(currentPage + 1);
   });
-
-  
 });
 
 export { setCurrentPage, getPaginationNumbers, updatePagination };

@@ -1,6 +1,5 @@
 
 // 2. Obtener las tareas de un usuario por ID
-
 const getTasksByUserId = async (req, res) => {
     cors(req, res, async () => {
         if (req.method !== 'GET') return res.status(405).json({ error: 'Método no permitido' });

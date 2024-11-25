@@ -14,7 +14,6 @@ dayButtons = document.querySelectorAll('.day-btn');
 weekFrequencyButtons = document.querySelectorAll('.week-frequency .freq-btn');
 monthlyOptionButtons = document.querySelectorAll('.monthly-option');
 
-
 function updateFrequencySelection(button) {
     const value = parseInt(button.dataset.value, 10);
 
@@ -41,7 +40,6 @@ function updateFrequencySelection(button) {
         state.monthlyOption = null;
         monthlyOptionButtons.forEach(btn => btn.classList.remove('active'));
     }
-
 }
 
 frequencyButtons.forEach((button) => {
