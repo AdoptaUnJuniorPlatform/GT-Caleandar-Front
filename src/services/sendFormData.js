@@ -27,7 +27,7 @@ export default async function sendFormData(data) {
 
     // Enviar los datos al backend
     try {
-        const response = await fetch('http://localhost:5001/caleandar-leanmind/us-central1/endDatos', {
+      const response = await fetch('https://us-central1-caleandar-leanmind.cloudfunctions.net/endDatos', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
