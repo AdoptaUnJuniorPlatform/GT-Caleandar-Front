@@ -18,8 +18,10 @@ export async function handleFormSubmit(event) {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
     const formError = document.getElementById("formError");
+    const modal = document.querySelector(".modal");
+    const viewTasks = document.querySelector('.parent');
 
-    const participants = data.participant
+    const participants = data.participants
         ? data.participant.split(',').map((item) => item.trim())
         : [];
 
@@ -34,10 +36,20 @@ export async function handleFormSubmit(event) {
 
     try {
         await sendFormData(requestData);
-        alert("Recordatorio creado exitosamente.");
         formError.textContent = "";
         resetFrequencyForm();
         form.reset();
+         // ocultar el modal de tarea
+         modal.classList.remove('is-active');
+         // ocultar la vista de la lista de tareas
+         viewTasks.classList.add('hidden');
+         const successSaveModal = document.getElementById('myModal');
+        // mostrar el modal de confirmación de tarea guardada con éxito
+        successSaveModal.classList.add("is-active")
+        setTimeout(() => {
+          successSaveModal.classList.remove("is-active")
+          viewTasks.classList.remove('hidden')
+        }, 3000);
     } catch (error) {
         if (error.message === "No estás autenticado.") {
             formError.textContent = "Por favor, inicia sesión para crear un recordatorio.";
